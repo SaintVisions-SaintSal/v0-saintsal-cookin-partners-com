@@ -233,11 +233,72 @@ export default function Home() {
     },
   ]
   const products = [
-    { name: "FREE", price: "$0", period: "/mo", c15: "$0", c25: "$0", c35: "$0", pop: false },
-    { name: "Starter", price: "$27", period: "/mo", c15: "$4.05", c25: "$6.75", c35: "$9.45", pop: false },
-    { name: "PRO", price: "$97", period: "/mo", c15: "$14.55", c25: "$24.25", c35: "$33.95", pop: true },
-    { name: "Teams", price: "$297", period: "/mo", c15: "$44.55", c25: "$74.25", c35: "$103.95", pop: false },
-    { name: "Enterprise", price: "$497", period: "/mo", c15: "$74.55", c25: "$124.25", c35: "$173.95", pop: false },
+    {
+      name: "FREE",
+      price: "$0",
+      annualPrice: "$0",
+      period: "/mo",
+      c15: "$0",
+      c25: "$0",
+      c35: "$0",
+      pop: false,
+      payLink: "https://saintsal.ai/signup/free",
+      annualPayLink: "https://saintsal.ai/signup/free",
+      btnText: "Get Started Free",
+    },
+    {
+      name: "Starter",
+      price: "$27",
+      annualPrice: "$270",
+      period: "/mo",
+      c15: "$4.05",
+      c25: "$6.75",
+      c35: "$9.45",
+      pop: false,
+      payLink: "#",
+      annualPayLink: "#",
+      btnText: "Subscribe Now",
+    },
+    {
+      name: "PRO",
+      price: "$97",
+      annualPrice: "$970",
+      period: "/mo",
+      c15: "$14.55",
+      c25: "$24.25",
+      c35: "$33.95",
+      pop: true,
+      payLink: "#",
+      annualPayLink: "#",
+      btnText: "Subscribe Now",
+    },
+    {
+      name: "Teams",
+      price: "$297",
+      annualPrice: "$2,970",
+      period: "/mo",
+      c15: "$44.55",
+      c25: "$74.25",
+      c35: "$103.95",
+      pop: false,
+      payLink: "#",
+      annualPayLink: "#",
+      btnText: "Subscribe Now",
+    },
+    {
+      name: "Enterprise",
+      price: "$497",
+      annualPrice: "$4,970",
+      period: "/mo",
+      c15: "$74.55",
+      c25: "$124.25",
+      c35: "$173.95",
+      pop: false,
+      payLink: "#",
+      annualPayLink: "#",
+      btnText: "Contact Sales",
+      credits: "$100 Complimentary Credits",
+    },
   ]
   return (
     <main className="main">
@@ -365,29 +426,75 @@ export default function Home() {
           <div className="products-table">
             <div className="products-header">
               <div>Product</div>
-              <div>Price</div>
+              <div>Monthly Price</div>
+              <div>Annual Price</div>
               <div>Partner (15%)</div>
               <div>VP (25%)</div>
               <div>President (35%)</div>
+              <div>Action</div>
             </div>
             {products.map((p, i) => (
               <div key={i} className={`products-row ${p.pop ? "popular" : ""}`}>
                 <div>
                   <strong>SaintSal™ {p.name}</strong>
+                  {p.credits && <div className="credits-badge">{p.credits}</div>}
                 </div>
                 <div>
                   {p.price}
                   <span>{p.period}</span>
                 </div>
+                <div>
+                  {p.annualPrice}
+                  <span>/yr</span>
+                </div>
                 <div className="commission">{p.c15}</div>
                 <div className="commission">{p.c25}</div>
                 <div className="commission gold">{p.c35}</div>
+                <div>
+                  <div className="payment-buttons">
+                    <a
+                      href={p.payLink}
+                      className="btn-product btn-product-monthly"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Monthly →
+                    </a>
+                    {p.name !== "FREE" && (
+                      <a
+                        href={p.annualPayLink}
+                        className="btn-product btn-product-annual"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Annual →
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
           <p className="products-note">
             All commissions are <strong>recurring</strong> - you earn every month your referral stays subscribed!
           </p>
+          <div className="products-cta">
+            <h3>Ready to experience SaintSal™ AI yourself?</h3>
+            <p>Try it risk-free and see why our partners love promoting it.</p>
+            <div className="products-cta-buttons">
+              <a
+                href="https://saintsal.ai/signup/free"
+                className="btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start Free Trial →
+              </a>
+              <a href="#" className="btn-secondary" target="_blank" rel="noopener noreferrer">
+                View PRO Plan
+              </a>
+            </div>
+          </div>
         </div>
       </section>
       <section id="apply" className="section dark">
