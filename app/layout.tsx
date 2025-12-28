@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 import Script from "next/script"
+import { SaintSalChat } from "@/components/saintsal-chat"
 
 export const metadata: Metadata = {
   title: "CookinPartners™ | Saint Vision Technologies Partner Program",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
+        <SaintSalChat />
         <Script src="https://link.msgsndr.com/js/form_embed.js" strategy="afterInteractive" />
         <Script
           src="https://link.msgsndr.com/js/external-tracking.js?id=tk_536af3445cba47f7bccd6946e71526bc"

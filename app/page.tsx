@@ -1,6 +1,8 @@
 "use client"
 import { useState, useEffect } from "react"
 import type React from "react"
+import Image from "next/image"
+import { captureGHLParams, storeGHLParams, retrieveGHLParams } from "@/lib/ghl-tracking"
 
 function CommissionCalculator() {
   const [tier, setTier] = useState("partner")
@@ -56,6 +58,7 @@ function CommissionCalculator() {
 }
 
 function PartnerSignupForm() {
+  const [applicationType, setApplicationType] = useState<"partner" | "vp" | null>(null)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -64,47 +67,162 @@ function PartnerSignupForm() {
     company: "",
     audience: "",
     experience: "",
+    payoutMethod: "",
+    paypalEmail: "",
+    venmoHandle: "",
+    cashappHandle: "",
+    bankAccountName: "",
+    bankRoutingNumber: "",
+    bankAccountNumber: "",
+    taxId: "",
+    instagram: "",
+    facebook: "",
+    linkedin: "",
+    twitter: "",
+    tiktok: "",
+    youtube: "",
+    followerCount: "",
+    portfolioUrl: "",
+    socialExperience: "",
+    marketingStrategy: "",
   })
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
+
+  useEffect(() => {
+    const params = captureGHLParams()
+    if (Object.keys(params).length > 0) {
+      console.log("[v0] Captured GHL tracking params:", params)
+      storeGHLParams(params)
+    }
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError("")
+
+    const trackingParams = retrieveGHLParams()
+
     try {
       const response = await fetch("/api/partner-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          applicationType,
+          tracking: trackingParams, // Include tracking data
+        }),
       })
       const data = await response.json()
       if (data.success) {
-        setSuccess(true)
+        const params = new URLSearchParams()
+        params.set("type", applicationType || "partner")
+        if (data.affiliateLink) {
+          params.set("affiliateLink", data.affiliateLink)
+        }
+        window.location.href = `/thank-you?${params.toString()}`
       } else {
-        setError("Something went wrong. Please try again.")
+        setError(data.message || "Something went wrong. Please try again.")
       }
     } catch (e) {
-      console.error(e)
-      // Still show success - webhook may have worked
-      setSuccess(true)
+      console.error("[v0] Signup error:", e)
+      setError("Network error. Please try again.")
     }
     setLoading(false)
   }
-  if (success) {
+
+  const renderApplicationTypeSelector = () => {
     return (
-      <div className="success-box">
-        <div className="success-icon">🎉</div>
-        <h3>Welcome to the Family!</h3>
-        <p>Your application has been received. Check your email within 24-48 hours for your affiliate link!</p>
-        <a href="mailto:partners@cookin.io" className="btn-secondary">
-          Contact Us
-        </a>
+      <div className="application-type-selector">
+        <h3 className="selector-title">Choose Your Partnership Level</h3>
+        <p className="selector-subtitle">Select the tier that matches your goals and experience</p>
+        <div className="type-cards">
+          <div
+            className={`type-card ${applicationType === "partner" ? "selected" : ""}`}
+            onClick={() => setApplicationType("partner")}
+          >
+            <div className="type-icon">🤝</div>
+            <h4>Partner</h4>
+            <div className="commission-badge">15% Commission</div>
+            <p className="type-description">Perfect for getting started quickly</p>
+            <ul className="type-features">
+              <li>
+                <span className="checkmark">✓</span> Instant approval & affiliate link
+              </li>
+              <li>
+                <span className="checkmark">✓</span> 15% recurring commissions
+              </li>
+              <li>
+                <span className="checkmark">✓</span> Marketing materials provided
+              </li>
+              <li>
+                <span className="checkmark">✓</span> Monthly payouts (Net-15)
+              </li>
+            </ul>
+            <button
+              type="button"
+              className="btn-select"
+              onClick={(e) => {
+                e.stopPropagation()
+                setApplicationType("partner")
+              }}
+            >
+              {applicationType === "partner" ? "Selected ✓" : "Select Partner"}
+            </button>
+          </div>
+
+          <div
+            className={`type-card featured ${applicationType === "vp" ? "selected" : ""}`}
+            onClick={() => setApplicationType("vp")}
+          >
+            <div className="premium-badge">Premium Tier</div>
+            <div className="type-icon">👑</div>
+            <h4>VP Position</h4>
+            <div className="commission-badge gold">25-35% Commission</div>
+            <p className="type-description">Leadership role with maximum earnings</p>
+            <ul className="type-features">
+              <li>
+                <span className="checkmark">✓</span> 25-35% recurring commissions
+              </li>
+              <li>
+                <span className="checkmark">✓</span> Dedicated support manager
+              </li>
+              <li>
+                <span className="checkmark">✓</span> Custom co-branded materials
+              </li>
+              <li>
+                <span className="checkmark">✓</span> Priority payouts & bonuses
+              </li>
+            </ul>
+            <button
+              type="button"
+              className="btn-select gold"
+              onClick={(e) => {
+                e.stopPropagation()
+                setApplicationType("vp")
+              }}
+            >
+              {applicationType === "vp" ? "Selected ✓" : "Select VP Role"}
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
+
+  if (!applicationType) {
+    return renderApplicationTypeSelector()
+  }
+
   return (
     <form onSubmit={handleSubmit} className="signup-form">
+      <button type="button" onClick={() => setApplicationType(null)} className="back-button">
+        ← Change Application Type
+      </button>
+
+      <h3>{applicationType === "vp" ? "VP Position Application" : "Partner Application"}</h3>
+
       <div className="form-row">
         <div className="form-field">
           <label>First Name *</label>
@@ -139,9 +257,10 @@ function PartnerSignupForm() {
           />
         </div>
         <div className="form-field">
-          <label>Phone</label>
+          <label>Phone *</label>
           <input
             type="tel"
+            required
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             placeholder="(555) 123-4567"
@@ -149,9 +268,10 @@ function PartnerSignupForm() {
         </div>
       </div>
       <div className="form-field">
-        <label>Company / Organization</label>
+        <label>Company / Organization *</label>
         <input
           type="text"
+          required
           value={formData.company}
           onChange={(e) => setFormData({ ...formData, company: e.target.value })}
           placeholder="Your company name"
@@ -184,11 +304,245 @@ function PartnerSignupForm() {
           <option value="professional">Professional Affiliate</option>
         </select>
       </div>
+
+      <div className="section-divider">
+        <h4>💳 Payout Information</h4>
+        <p className="small-text">How would you like to receive your commissions?</p>
+      </div>
+
+      <div className="form-field">
+        <label>Preferred Payout Method *</label>
+        <select
+          required
+          value={formData.payoutMethod}
+          onChange={(e) => setFormData({ ...formData, payoutMethod: e.target.value })}
+        >
+          <option value="">Select payout method...</option>
+          <option value="paypal">PayPal</option>
+          <option value="venmo">Venmo</option>
+          <option value="cashapp">Cash App</option>
+          <option value="bank">Direct Deposit (ACH)</option>
+          <option value="check">Check (Mail)</option>
+        </select>
+      </div>
+
+      {formData.payoutMethod === "paypal" && (
+        <div className="form-field">
+          <label>PayPal Email *</label>
+          <input
+            type="email"
+            required
+            value={formData.paypalEmail}
+            onChange={(e) => setFormData({ ...formData, paypalEmail: e.target.value })}
+            placeholder="your@paypal.com"
+          />
+        </div>
+      )}
+
+      {formData.payoutMethod === "venmo" && (
+        <div className="form-field">
+          <label>Venmo Username *</label>
+          <input
+            type="text"
+            required
+            value={formData.venmoHandle}
+            onChange={(e) => setFormData({ ...formData, venmoHandle: e.target.value })}
+            placeholder="@yourvenmo"
+          />
+        </div>
+      )}
+
+      {formData.payoutMethod === "cashapp" && (
+        <div className="form-field">
+          <label>Cash App Username *</label>
+          <input
+            type="text"
+            required
+            value={formData.cashappHandle}
+            onChange={(e) => setFormData({ ...formData, cashappHandle: e.target.value })}
+            placeholder="$yourcashapp"
+          />
+        </div>
+      )}
+
+      {formData.payoutMethod === "bank" && (
+        <>
+          <div className="form-field">
+            <label>Account Holder Name *</label>
+            <input
+              type="text"
+              required
+              value={formData.bankAccountName}
+              onChange={(e) => setFormData({ ...formData, bankAccountName: e.target.value })}
+              placeholder="Full name on account"
+            />
+          </div>
+          <div className="form-row">
+            <div className="form-field">
+              <label>Routing Number *</label>
+              <input
+                type="text"
+                required
+                pattern="[0-9]{9}"
+                value={formData.bankRoutingNumber}
+                onChange={(e) => setFormData({ ...formData, bankRoutingNumber: e.target.value })}
+                placeholder="123456789"
+              />
+            </div>
+            <div className="form-field">
+              <label>Account Number *</label>
+              <input
+                type="text"
+                required
+                value={formData.bankAccountNumber}
+                onChange={(e) => setFormData({ ...formData, bankAccountNumber: e.target.value })}
+                placeholder="Account number"
+              />
+            </div>
+          </div>
+        </>
+      )}
+
+      <div className="form-field">
+        <label>Tax ID / SSN (Optional)</label>
+        <input
+          type="text"
+          value={formData.taxId}
+          onChange={(e) => setFormData({ ...formData, taxId: e.target.value })}
+          placeholder="For 1099 tax reporting (US only)"
+        />
+        <p className="field-note">Required for US partners earning over $600/year</p>
+      </div>
+
+      {applicationType === "vp" && (
+        <>
+          <div className="section-divider">
+            <h4>Social Media Presence</h4>
+            <p className="small-text">Provide your social media profiles and experience</p>
+          </div>
+
+          <div className="form-row">
+            <div className="form-field">
+              <label>Instagram Handle</label>
+              <input
+                type="text"
+                value={formData.instagram}
+                onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
+                placeholder="@yourusername"
+              />
+            </div>
+            <div className="form-field">
+              <label>Facebook Profile/Page</label>
+              <input
+                type="text"
+                value={formData.facebook}
+                onChange={(e) => setFormData({ ...formData, facebook: e.target.value })}
+                placeholder="facebook.com/yourpage"
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-field">
+              <label>LinkedIn Profile</label>
+              <input
+                type="text"
+                value={formData.linkedin}
+                onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                placeholder="linkedin.com/in/yourname"
+              />
+            </div>
+            <div className="form-field">
+              <label>Twitter/X Handle</label>
+              <input
+                type="text"
+                value={formData.twitter}
+                onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
+                placeholder="@yourusername"
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-field">
+              <label>TikTok Handle</label>
+              <input
+                type="text"
+                value={formData.tiktok}
+                onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
+                placeholder="@yourusername"
+              />
+            </div>
+            <div className="form-field">
+              <label>YouTube Channel</label>
+              <input
+                type="text"
+                value={formData.youtube}
+                onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
+                placeholder="youtube.com/@channel"
+              />
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label>Total Combined Followers/Reach *</label>
+            <select
+              required
+              value={formData.followerCount}
+              onChange={(e) => setFormData({ ...formData, followerCount: e.target.value })}
+            >
+              <option value="">Select your reach...</option>
+              <option value="1k-10k">1,000 - 10,000</option>
+              <option value="10k-50k">10,000 - 50,000</option>
+              <option value="50k-100k">50,000 - 100,000</option>
+              <option value="100k-500k">100,000 - 500,000</option>
+              <option value="500k+">500,000+</option>
+            </select>
+          </div>
+
+          <div className="form-field">
+            <label>Portfolio/Website URL</label>
+            <input
+              type="url"
+              value={formData.portfolioUrl}
+              onChange={(e) => setFormData({ ...formData, portfolioUrl: e.target.value })}
+              placeholder="https://yourwebsite.com"
+            />
+          </div>
+
+          <div className="form-field">
+            <label>Social Media Marketing Experience *</label>
+            <textarea
+              required
+              value={formData.socialExperience}
+              onChange={(e) => setFormData({ ...formData, socialExperience: e.target.value })}
+              placeholder="Describe your experience with social media marketing, influencer partnerships, brand collaborations, etc."
+              rows={4}
+            />
+          </div>
+
+          <div className="form-field">
+            <label>How Will You Promote SaintSal™? *</label>
+            <textarea
+              required
+              value={formData.marketingStrategy}
+              onChange={(e) => setFormData({ ...formData, marketingStrategy: e.target.value })}
+              placeholder="Share your strategy for promoting SaintSal™ products to your audience..."
+              rows={4}
+            />
+          </div>
+        </>
+      )}
+
+      {error && <div className="error-message">{error}</div>}
+
       <button type="submit" className="btn-primary full-width" disabled={loading}>
-        {loading ? "Submitting..." : "Apply to Become a Partner →"}
+        {loading ? "Submitting..." : applicationType === "vp" ? "Submit VP Application →" : "Get My Affiliate Link →"}
       </button>
       <p className="form-note">
-        By applying, you agree to our Partner Terms. Applications reviewed within 24-48 hours.
+        {applicationType === "vp"
+          ? "VP applications are reviewed by our team and sent to support@cookin.io. You'll hear back within 24-48 hours."
+          : "Partner accounts are approved instantly. You'll receive your affiliate link immediately!"}
       </p>
     </form>
   )
@@ -201,6 +555,7 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
   const platforms = [
     { name: "SaintSal™ AI", desc: "Multi-model AI orchestration platform", icon: "🤖", color: "#D4AF37" },
     { name: "CookinBiz", desc: "Business automation & tools", icon: "💼", color: "#3b82f6" },
@@ -242,8 +597,8 @@ export default function Home() {
       c25: "$0",
       c35: "$0",
       pop: false,
-      payLink: "https://saintsal.ai/signup/free",
-      annualPayLink: "https://saintsal.ai/signup/free",
+      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=free",
+      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=free",
       btnText: "Get Started Free",
     },
     {
@@ -255,8 +610,8 @@ export default function Home() {
       c25: "$6.75",
       c35: "$9.45",
       pop: false,
-      payLink: "#",
-      annualPayLink: "#",
+      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=starter-monthly",
+      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=starter-annual",
       btnText: "Subscribe Now",
     },
     {
@@ -268,8 +623,8 @@ export default function Home() {
       c25: "$24.25",
       c35: "$33.95",
       pop: true,
-      payLink: "#",
-      annualPayLink: "#",
+      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=pro-monthly",
+      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=pro-annual",
       btnText: "Subscribe Now",
     },
     {
@@ -281,8 +636,8 @@ export default function Home() {
       c25: "$74.25",
       c35: "$103.95",
       pop: false,
-      payLink: "#",
-      annualPayLink: "#",
+      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=teams-monthly",
+      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=teams-annual",
       btnText: "Subscribe Now",
     },
     {
@@ -294,17 +649,27 @@ export default function Home() {
       c25: "$124.25",
       c35: "$173.95",
       pop: false,
-      payLink: "#",
-      annualPayLink: "#",
+      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=enterprise-monthly",
+      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=enterprise-annual",
       btnText: "Contact Sales",
       credits: "$100 Complimentary Credits",
     },
   ]
+
   return (
     <main className="main">
       <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
         <div className="nav-logo">
-          Cookin<span className="gold">Partners</span>™
+          <Image
+            src="/images/cookinpartners-logo.png"
+            alt="CookinPartners Logo"
+            width={50}
+            height={50}
+            className="logo-image"
+          />
+          <span>
+            Cookin<span className="gold">Partners</span>™
+          </span>
         </div>
         <div className="nav-links">
           <a href="#ecosystem">Ecosystem</a>
@@ -318,6 +683,9 @@ export default function Home() {
       <section className="hero">
         <div className="hero-glow"></div>
         <div className="container">
+          <div className="hero-logo">
+            <Image src="/images/cookinpartners-logo.png" alt="CookinPartners" width={120} height={120} priority />
+          </div>
           <div className="hero-badge">🏛️ Saint Vision AI Institute</div>
           <h1>
             Partner with the Future of <span className="gold">AI Business</span>
@@ -550,8 +918,11 @@ export default function Home() {
         <div className="container">
           <div className="footer-main">
             <div className="footer-brand">
-              <div className="nav-logo">
-                Cookin<span className="gold">Partners</span>™
+              <div className="footer-logo-container">
+                <Image src="/images/cookinpartners-logo.png" alt="CookinPartners Logo" width={60} height={60} />
+                <div className="nav-logo">
+                  Cookin<span className="gold">Partners</span>™
+                </div>
               </div>
               <p>The official partner program of Saint Vision Technologies LLC.</p>
               <div className="footer-ip">
