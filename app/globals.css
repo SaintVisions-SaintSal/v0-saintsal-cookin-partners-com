@@ -897,4 +897,783 @@ h6 {
   right: 24px;
   padding: 6px 16px;
   background: var(--gold-gradient);
+  color: #0a0a0a;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 100px;
+  text-transform: uppercase;
 }
+
+/* ============================================
+   APPLY PAGE STYLES - COMPLETE
+   ============================================ */
+
+/* Apply Page Base */
+.apply-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.apply-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* Back Link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold-400);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 40px;
+  transition: opacity 0.3s ease;
+}
+
+.back-link:hover {
+  opacity: 0.8;
+}
+
+/* Apply Hero Section */
+.apply-hero {
+  padding: 80px 0 60px;
+  text-align: center;
+}
+
+.apply-hero .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Logo centered properly */
+.apply-hero .hero-logo {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 24px;
+  border: 3px solid var(--gold-400);
+  margin: 0 auto 32px auto;
+  display: block;
+}
+
+.apply-hero .patent-badge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid var(--gold-400);
+  color: var(--gold-400);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.apply-hero h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(42px, 8vw, 72px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.apply-hero .hero-subtitle-large {
+  font-size: 22px;
+  color: var(--gold-400);
+  font-style: italic;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Ecosystem Showcase Section */
+.ecosystem-showcase {
+  padding: 80px 0;
+  background: var(--bg-secondary);
+}
+
+.showcase-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.showcase-badge {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--gold-400);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.section-title-secondary {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto 12px;
+  text-align: center;
+}
+
+.section-subtitle-sub {
+  font-size: 14px;
+  color: var(--gold-400);
+  text-align: center;
+}
+
+.ecosystem-header {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* Platforms Showcase Grid */
+.platforms-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.platform-showcase-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.platform-showcase-card:hover {
+  border-color: var(--gold-400);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+}
+
+.platform-showcase-card.primary {
+  border-color: var(--gold-400);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, var(--bg-card) 100%);
+}
+
+.platform-badge {
+  display: inline-block;
+  background: var(--gold-400);
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.platform-icon-large {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.platform-showcase-card h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.platform-tagline {
+  font-size: 14px;
+  color: var(--gold-400);
+  margin-bottom: 12px;
+}
+
+.platform-description {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.platform-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(212, 175, 55, 0.08);
+  border-radius: 12px;
+}
+
+.platform-stats .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.platform-stats .stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold-400);
+}
+
+.platform-stats .stat-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.platform-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.platform-features-list li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.platform-features-list li:last-child {
+  border-bottom: none;
+}
+
+/* Value Proposition */
+.value-proposition {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.value-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.value-card:hover {
+  border-color: var(--gold-400);
+}
+
+.value-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.value-card h4 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.value-card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Application Section */
+.application-section {
+  padding: 80px 0;
+  background: var(--bg-primary);
+}
+
+.tier-selection {
+  text-align: center;
+}
+
+.tier-selection h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(32px, 5vw, 42px);
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.selection-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+}
+
+/* Tier Cards Showcase */
+.tier-cards-showcase {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .tier-cards-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Partner Card - MAIN / FEATURED */
+.tier-card-main {
+  background: var(--bg-card);
+  border: 2px solid var(--gold-400);
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+}
+
+.tier-card-main.featured-partner {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.15) 0%, var(--bg-card) 100%);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold-400);
+  color: #000;
+  padding: 8px 24px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tier-header {
+  margin-bottom: 24px;
+}
+
+.tier-icon-large {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.tier-header h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.commission-badge-large {
+  display: inline-block;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--gold-400);
+  margin-bottom: 4px;
+}
+
+.commission-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tier-tagline {
+  font-size: 15px;
+  color: var(--text-tertiary);
+  margin-bottom: 24px;
+}
+
+.tier-benefits-expanded {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  text-align: left;
+}
+
+.tier-benefits-expanded li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tier-benefits-expanded li:last-child {
+  border-bottom: none;
+}
+
+.check-icon {
+  color: var(--gold-400);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.tier-benefits-expanded strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.tier-btn-main {
+  display: block;
+  width: 100%;
+  padding: 18px 32px;
+  background: var(--gold-400);
+  color: #000;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.tier-btn-main:hover {
+  background: #f4d03f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+}
+
+.tier-btn-main.cta-join-now {
+  animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+  0%,
+  100% {
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba(212, 175, 55, 0.6);
+  }
+}
+
+.instant-approval-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--green);
+}
+
+/* VP Partner Card - SECONDARY */
+.tier-card-secondary {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  text-align: center;
+}
+
+.exclusive-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tier-header-compact {
+  margin-bottom: 20px;
+}
+
+.tier-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.tier-header-compact h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.commission-badge {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.commission-badge.gold {
+  color: var(--gold-400);
+}
+
+.commission-label-small {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tier-description-compact {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 20px;
+}
+
+.tier-benefits-compact {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  text-align: left;
+}
+
+.tier-benefits-compact li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tier-benefits-compact .check {
+  color: var(--gold-400);
+}
+
+.tier-btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1px solid var(--gold-400);
+  color: var(--gold-400);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.tier-btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.limited-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Why Partner Section */
+.why-partner {
+  padding: 80px 0;
+  background: var(--bg-secondary);
+}
+
+.why-partner h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(32px, 5vw, 42px);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 48px;
+  color: var(--text-primary);
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.benefit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  border-color: var(--gold-400);
+  transform: translateY(-4px);
+}
+
+.benefit-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.benefit-card h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.benefit-card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.benefit-highlight {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--gold-400);
+  font-weight: 600;
+}
+
+/* Horizontal Footer */
+.footer-horizontal {
+  background: var(--bg-tertiary);
+  padding: 48px 0 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.footer-brand-compact {
+  flex-shrink: 0;
+}
+
+.footer-logo-text {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.footer-links-horizontal {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.footer-group h4 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-400);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.footer-group a {
+  display: block;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+.footer-group a:hover {
+  color: var(--gold-400);
+}
+
+.footer-ip-compact {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  text-align: right;
+}
+
+.footer-ip-compact strong {
+  color: var(--gold-400);
+}
+
+.footer-ip-compact a {
+  color: var(--gold-400);
+  text-decoration: none;
+}
+
+.footer-ip-compact a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom-horizontal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-bottom-horizontal p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-links-horizontal {
+    justify-content: center;
+  }
+
+  .footer-ip-compact {
+    text-align: center;
+  }
+
+  .footer-bottom-horizontal {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* End of Apply Page Styles */

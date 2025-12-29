@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import type React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { captureGHLParams, storeGHLParams, retrieveGHLParams } from "@/lib/ghl-tracking"
 
 function CommissionCalculator() {
@@ -675,61 +676,62 @@ export default function Home() {
           <a href="#ecosystem">Ecosystem</a>
           <a href="#commissions">Commissions</a>
           <a href="#products">Products</a>
-          <a href="#apply" className="btn-primary">
+          <Link href="/apply" className="btn-primary">
             Apply Now
-          </a>
+          </Link>
         </div>
       </nav>
       <section className="hero">
         <div className="hero-glow"></div>
         <div className="container">
           <div className="hero-logo">
-            <Image src="/images/cookinpartners-logo.png" alt="CookinPartners" width={120} height={120} priority />
+            <Image src="/images/cookinpartnerslogo.jpeg" alt="CookinPartners Logo" width={120} height={120} priority />
           </div>
-          <div className="hero-badge">🏛️ Saint Vision AI Institute</div>
+
+          <div className="hero-badge">US Patent #10,290,222 | HACP™ Technology</div>
+
           <h1>
-            Partner with the Future of <span className="gold">AI Business</span>
+            <span className="gold">CookinPartners™</span>
           </h1>
-          <p className="hero-tagline">Our platforms are built by us, for us, and for you.</p>
+          <p className="hero-tagline">Partner with the Saint Vision ecosystem</p>
           <p className="hero-sub">
-            Earn <strong>15-35% recurring commissions</strong> promoting the most advanced AI-powered business
-            ecosystem. Backed by US Patent #10,290,222 and HACP™ technology.
+            Join an elite network of professionals earning recurring commissions while promoting cutting-edge AI
+            technology. Partner program for Real Estate Brokers, Fund Managers, Realtors, Loan Officers. Powered by US
+            Patent #10,290,222.
           </p>
+
           <div className="hero-stats">
             <div className="stat">
-              <strong>42+</strong>
-              <span>Domains</span>
+              <strong>15-35%</strong>
+              <span>Commission</span>
             </div>
             <div className="stat">
-              <strong>6</strong>
-              <span>Platforms</span>
+              <strong>Recurring</strong>
+              <span>Revenue</span>
             </div>
             <div className="stat">
-              <strong>35%</strong>
-              <span>Max Commission</span>
-            </div>
-            <div className="stat">
-              <strong>90</strong>
-              <span>Day Cookie</span>
+              <strong>9</strong>
+              <span>Products</span>
             </div>
           </div>
+
           <div className="hero-cta">
-            <a href="#apply" className="btn-primary">
-              Become a Partner →
-            </a>
-            <a href="#ecosystem" className="btn-secondary">
+            <Link href="/apply" className="btn-primary">
+              Apply Now →
+            </Link>
+            <Link href="#ecosystem" className="btn-secondary">
               Explore Ecosystem
-            </a>
+            </Link>
           </div>
-          <div className="hero-ip">
-            Powered by <strong>HACP™</strong> (Human-AI Connection Protocol)
-            <br />
-            US Patent #10,290,222 • TM Serial #99329797 • Filed September 21, 2015
-            <br />
-            <a href="https://hacpglobal.info" target="_blank" rel="noopener noreferrer">
-              hacpglobal.info →
+
+          <p className="hero-ip">
+            Protected by{" "}
+            <a href="https://patents.google.com/patent/US10290222B2" target="_blank" rel="noopener noreferrer">
+              US Patent #10,290,222
             </a>
-          </div>
+            <br />
+            The HACP™ (Hyperlocal Automated Cross Platform) technology powers the entire Saint Vision ecosystem
+          </p>
         </div>
       </section>
       <section id="ecosystem" className="section">
@@ -773,9 +775,9 @@ export default function Home() {
                     <li key={j}>✓ {f}</li>
                   ))}
                 </ul>
-                <a href="#apply" className="btn-primary">
+                <Link href="/apply" className="btn-primary">
                   Get Started
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -846,70 +848,26 @@ export default function Home() {
           <p className="products-note">
             All commissions are <strong>recurring</strong> - you earn every month your referral stays subscribed!
           </p>
+        </div>
+      </section>
+      {/* Apply Section - Simplified CTA */}
+      <section id="apply" className="section">
+        <div className="container">
           <div className="products-cta">
-            <h3>Ready to experience SaintSal™ AI yourself?</h3>
-            <p>Try it risk-free and see why our partners love promoting it.</p>
+            <h3>Ready to Start Earning?</h3>
+            <p>Join the CookinPartners program today and get instant access to your affiliate link</p>
             <div className="products-cta-buttons">
+              <Link href="/apply" className="btn-primary">
+                Apply Now - Get Instant Link →
+              </Link>
               <a
-                href="https://saintsal.ai/signup/free"
-                className="btn-primary"
+                href="https://cookinpartners.com/portal"
+                className="btn-secondary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Start Free Trial →
+                Partner Login
               </a>
-              <a href="#" className="btn-secondary" target="_blank" rel="noopener noreferrer">
-                View PRO Plan
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="apply" className="section dark">
-        <div className="container">
-          <div className="apply-grid">
-            <div className="apply-info">
-              <span className="badge">Join Us</span>
-              <h2>
-                Ready to <span className="gold">Partner</span>?
-              </h2>
-              <p>
-                Join an elite network of professionals earning recurring commissions while promoting cutting-edge AI
-                technology.
-              </p>
-              <div className="benefits">
-                <div className="benefit">
-                  <span>🔗</span>
-                  <div>
-                    <strong>Instant Affiliate Link</strong>
-                    <p>Get your unique tracking link upon approval</p>
-                  </div>
-                </div>
-                <div className="benefit">
-                  <span>💰</span>
-                  <div>
-                    <strong>Recurring Revenue</strong>
-                    <p>Earn as long as referrals stay subscribed</p>
-                  </div>
-                </div>
-                <div className="benefit">
-                  <span>📈</span>
-                  <div>
-                    <strong>Growth Path</strong>
-                    <p>Partner → VP Partner → President</p>
-                  </div>
-                </div>
-                <div className="benefit">
-                  <span>🎯</span>
-                  <div>
-                    <strong>Marketing Support</strong>
-                    <p>Branded materials and sales training</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="apply-form">
-              <PartnerSignupForm />
             </div>
           </div>
         </div>
