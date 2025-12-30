@@ -1677,3 +1677,313 @@ h6 {
 }
 
 /* End of Apply Page Styles */
+
+/* ========================================
+   PARTNER APPLICATION FORM STYLES
+   ======================================== */
+
+.apply-hero-compact {
+  padding: 60px 0 40px;
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+  text-align: center;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--gold-400);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 24px;
+  transition: opacity 0.3s ease;
+}
+
+.back-link:hover {
+  opacity: 0.8;
+}
+
+.hero-content-compact {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tier-badge-hero {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+  color: var(--bg-primary);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.hero-content-compact h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+}
+
+.hero-content-compact p {
+  font-size: 18px;
+  color: var(--gold-400);
+  margin: 0;
+}
+
+/* Application Form Page Section */
+.application-form-page {
+  padding: 60px 0 100px;
+}
+
+.container-narrow {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.application-form-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.form-header h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.form-header p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Form Sections */
+.application-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold-400);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 8px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.form-section-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: -12px 0 8px 0;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form Fields */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.form-field select option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 12px;
+}
+
+.form-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.field-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 4px 0 0 0;
+}
+
+/* Submit Button */
+.submit-btn-main {
+  width: 100%;
+  padding: 18px 32px;
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bg-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+}
+
+.submit-btn-main:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+}
+
+.submit-btn-main:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-footer-note {
+  text-align: center;
+  font-size: 14px;
+  color: var(--gold-400);
+  margin: 16px 0 0 0;
+}
+
+/* VP-specific Styles */
+.vp-requirements-notice {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+  border: 1px solid var(--gold-500);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.vp-requirements-notice h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold-400);
+  margin: 0 0 16px 0;
+}
+
+.vp-requirements-notice ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vp-requirements-notice li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vp-requirements-notice li::before {
+  content: "✓";
+  color: var(--gold-400);
+  font-weight: bold;
+}
+
+/* Social Media Grid */
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .social-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .application-form-container {
+    padding: 24px;
+    margin: 0 -8px;
+    border-radius: 12px;
+  }
+
+  .form-header h2 {
+    font-size: 24px;
+  }
+
+  .submit-btn-main {
+    padding: 16px 24px;
+    font-size: 15px;
+  }
+}
+
+/* End of Partner Application Form Styles */
