@@ -6,6 +6,7 @@ import { Suspense } from "react"
 function ThankYouContent() {
   const searchParams = useSearchParams()
   const affiliateLink = searchParams.get("affiliateLink")
+  const portalLink = searchParams.get("portalLink") || "https://cookinpartners.com/portal"
   const applicationType = searchParams.get("type")
   const isVP = applicationType === "vp"
 
@@ -57,44 +58,40 @@ function ThankYouContent() {
                 <div className="link-display">
                   <code>{affiliateLink}</code>
                   <button onClick={() => navigator.clipboard.writeText(affiliateLink)} className="copy-btn">
-                    Copy
+                    📋 Copy
                   </button>
                 </div>
                 <p className="commission-note">💰 Earn 15% recurring commission on every sale!</p>
+                <p className="share-note">Share this link everywhere - social media, email, website, etc.</p>
               </div>
             )}
 
             <div className="next-steps">
               <h2>Access Your Partner Portal</h2>
-              <p>Login to access training, marketing materials, and track your commissions:</p>
-              <a
-                href="https://cookinpartners.com/portal"
-                className="portal-btn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                🚀 Access Partner Portal
+              <p>Login to track earnings, add bank info, and access marketing materials:</p>
+              <a href={portalLink} className="portal-btn" target="_blank" rel="noopener noreferrer">
+                🚀 Access Your Dashboard
               </a>
               <div className="steps">
                 <div className="step">
                   <span className="step-num">1</span>
                   <div>
-                    <strong>Get Training</strong>
-                    <p>Access exclusive training materials and best practices</p>
+                    <strong>Track Your Earnings</strong>
+                    <p>Real-time commission tracking and referral stats</p>
                   </div>
                 </div>
                 <div className="step">
                   <span className="step-num">2</span>
                   <div>
-                    <strong>Marketing Resources</strong>
-                    <p>Download banners, email templates, and promotional content</p>
+                    <strong>Add Bank Account</strong>
+                    <p>Set up direct deposit for your monthly payouts (Net-15)</p>
                   </div>
                 </div>
                 <div className="step">
                   <span className="step-num">3</span>
                   <div>
-                    <strong>Track Commissions</strong>
-                    <p>Monitor your sales and earnings in real-time</p>
+                    <strong>Marketing Materials</strong>
+                    <p>Download banners, email templates, and social media content</p>
                   </div>
                 </div>
               </div>
@@ -122,6 +119,7 @@ function ThankYouContent() {
         .copy-btn { padding: 8px 16px; background: #D4AF37; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
         .copy-btn:hover { background: #F4D03F; }
         .commission-note { color: #D4AF37; font-weight: 600; margin: 0; }
+        .share-note { font-size: 14px; color: rgba(255,255,255,0.5); margin: 8px 0 0 0; }
         
         .portal-btn { display: inline-block; padding: 16px 32px; background: linear-gradient(135deg, #D4AF37, #F4D03F); color: #000; font-weight: 700; font-size: 1.125rem; text-decoration: none; border-radius: 12px; margin: 24px 0; transition: transform 0.2s; }
         .portal-btn:hover { transform: scale(1.05); }

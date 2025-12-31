@@ -17,7 +17,12 @@ export default function PartnerApplicationPage() {
     audience: "",
     experience: "",
     payoutMethod: "",
-    payoutDetails: "",
+    paypalEmail: "",
+    venmoHandle: "",
+    cashappHandle: "",
+    bankAccountName: "",
+    bankRoutingNumber: "",
+    bankAccountNumber: "",
     taxId: "",
   })
 
@@ -38,7 +43,12 @@ export default function PartnerApplicationPage() {
       const data = await response.json()
 
       if (response.ok) {
-        router.push(`/thank-you?affiliateId=${data.affiliateId}&name=${formData.firstName}`)
+        const params = new URLSearchParams({
+          affiliateLink: data.affiliateLink || "",
+          portalLink: data.portalLink || data.clientPortalUrl || "",
+          type: "partner",
+        })
+        router.push(`/thank-you?${params.toString()}`)
       } else {
         alert(data.error || "Something went wrong. Please try again.")
       }
@@ -173,7 +183,7 @@ export default function PartnerApplicationPage() {
 
               {/* Payout Information */}
               <div className="form-section">
-                <h3 className="form-section-title">Payout Information</h3>
+                <h3 className="form-section-title">💰 Payout Information</h3>
                 <p className="form-section-description">How would you like to receive your commissions?</p>
 
                 <div className="form-field">
@@ -192,33 +202,80 @@ export default function PartnerApplicationPage() {
                   </select>
                 </div>
 
-                {formData.payoutMethod && (
+                {formData.payoutMethod === "paypal" && (
                   <div className="form-field">
-                    <label>
-                      {formData.payoutMethod === "paypal" && "PayPal Email Address *"}
-                      {formData.payoutMethod === "venmo" && "Venmo Username *"}
-                      {formData.payoutMethod === "cashapp" && "Cash App Tag *"}
-                      {formData.payoutMethod === "bank" && "Bank Account Details *"}
-                      {formData.payoutMethod === "check" && "Mailing Address *"}
-                    </label>
+                    <label>PayPal Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.paypalEmail}
+                      onChange={(e) => setFormData({ ...formData, paypalEmail: e.target.value })}
+                      placeholder="your@paypal.com"
+                    />
+                  </div>
+                )}
+
+                {formData.payoutMethod === "venmo" && (
+                  <div className="form-field">
+                    <label>Venmo Username *</label>
                     <input
                       type="text"
                       required
-                      value={formData.payoutDetails}
-                      onChange={(e) => setFormData({ ...formData, payoutDetails: e.target.value })}
-                      placeholder={
-                        formData.payoutMethod === "paypal"
-                          ? "your@email.com"
-                          : formData.payoutMethod === "venmo"
-                            ? "@username"
-                            : formData.payoutMethod === "cashapp"
-                              ? "$username"
-                              : formData.payoutMethod === "bank"
-                                ? "Account & routing number"
-                                : "Street address, City, State ZIP"
-                      }
+                      value={formData.venmoHandle}
+                      onChange={(e) => setFormData({ ...formData, venmoHandle: e.target.value })}
+                      placeholder="@username"
                     />
                   </div>
+                )}
+
+                {formData.payoutMethod === "cashapp" && (
+                  <div className="form-field">
+                    <label>Cash App Tag *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.cashappHandle}
+                      onChange={(e) => setFormData({ ...formData, cashappHandle: e.target.value })}
+                      placeholder="$username"
+                    />
+                  </div>
+                )}
+
+                {formData.payoutMethod === "bank" && (
+                  <>
+                    <div className="form-field">
+                      <label>Account Holder Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.bankAccountName}
+                        onChange={(e) => setFormData({ ...formData, bankAccountName: e.target.value })}
+                        placeholder="Full name on account"
+                      />
+                    </div>
+                    <div className="form-grid">
+                      <div className="form-field">
+                        <label>Routing Number *</label>
+                        <input
+                          type="text"
+                          required
+                          value={formData.bankRoutingNumber}
+                          onChange={(e) => setFormData({ ...formData, bankRoutingNumber: e.target.value })}
+                          placeholder="9 digits"
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Account Number *</label>
+                        <input
+                          type="text"
+                          required
+                          value={formData.bankAccountNumber}
+                          onChange={(e) => setFormData({ ...formData, bankAccountNumber: e.target.value })}
+                          placeholder="Account number"
+                        />
+                      </div>
+                    </div>
+                  </>
                 )}
 
                 <div className="form-field">

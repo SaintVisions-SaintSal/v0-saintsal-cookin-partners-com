@@ -58,7 +58,7 @@ export default function ApplyPage() {
                   <span className="stat-label">MONTHLY PLANS</span>
                 </div>
                 <div className="stat">
-                  <span className="stat-value">15-35%</span>
+                  <span className="stat-value">15-25%</span>
                   <span className="stat-label">YOUR COMMISSION</span>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export default function ApplyPage() {
             <div className="value-card">
               <div className="value-icon">🔄</div>
               <h4>Recurring Monthly Revenue</h4>
-              <p>Earn 15-35% commissions every single month as long as your referrals stay subscribed.</p>
+              <p>Earn 15-25% commissions every single month as long as your referrals stay subscribed.</p>
             </div>
             <div className="value-card">
               <div className="value-icon">🚀</div>
@@ -192,12 +192,12 @@ export default function ApplyPage() {
 
             <div className="tier-cards-showcase">
               {/* Partner - MOST POPULAR */}
-              <div className="tier-card-main featured-partner">
-                <div className="popular-badge">MOST POPULAR - Start Today!</div>
+              <div className="tier-card-main featured-partner highlighted">
+                <div className="popular-badge pulsing">⭐ MOST POPULAR - Start Today!</div>
                 <div className="tier-header">
                   <div className="tier-icon-large">🤝</div>
                   <h2>Partner</h2>
-                  <div className="commission-badge-large">15%</div>
+                  <div className="commission-badge-large gold-shimmer">15%</div>
                   <p className="commission-label">recurring commissions</p>
                 </div>
                 <p className="tier-tagline">Entry level • Start earning immediately</p>
@@ -206,34 +206,38 @@ export default function ApplyPage() {
                   <li>
                     <span className="check-icon">✓</span>
                     <div>
-                      <strong>Unique affiliate link</strong>
+                      <strong>Instant affiliate link</strong>
+                      <span className="benefit-detail">Get your tracking link immediately</span>
                     </div>
                   </li>
                   <li>
                     <span className="check-icon">✓</span>
                     <div>
                       <strong>90-day cookie tracking</strong>
+                      <span className="benefit-detail">Long attribution window</span>
                     </div>
                   </li>
                   <li>
                     <span className="check-icon">✓</span>
                     <div>
                       <strong>Net-15 payouts</strong>
+                      <span className="benefit-detail">Get paid every 15 days</span>
                     </div>
                   </li>
                   <li>
                     <span className="check-icon">✓</span>
                     <div>
                       <strong>Marketing materials</strong>
+                      <span className="benefit-detail">Banners, emails, social content</span>
                     </div>
                   </li>
                 </ul>
 
-                <Link href="/apply/partner" className="tier-btn-main cta-join-now">
-                  Get Started
+                <Link href="/apply/partner" className="tier-btn-main cta-join-now pulsing-btn">
+                  Get Your Affiliate Link Now →
                 </Link>
 
-                <p className="instant-approval-note">✓ Instant approval for qualified applicants</p>
+                <p className="instant-approval-note highlight">✓ Auto-approved • Start earning in 5 minutes</p>
               </div>
 
               {/* VP Partner - LIMITED */}
@@ -242,10 +246,10 @@ export default function ApplyPage() {
                 <div className="tier-header-compact">
                   <div className="tier-icon">👑</div>
                   <h3>VP Partner</h3>
-                  <div className="commission-badge gold">25-35%</div>
+                  <div className="commission-badge gold">25%</div>
                   <p className="commission-label-small">recurring commissions</p>
                 </div>
-                <p className="tier-description-compact">Leadership tier • Recruit sub-affiliates</p>
+                <p className="tier-description-compact">Leadership tier • Application required</p>
 
                 <ul className="tier-benefits-compact">
                   <li>
@@ -263,10 +267,10 @@ export default function ApplyPage() {
                 </ul>
 
                 <Link href="/apply/vp" className="tier-btn-secondary">
-                  Get Started
+                  Apply for VP Role →
                 </Link>
 
-                <p className="limited-note">Application review required • Very limited spots</p>
+                <p className="limited-note">Manual review required • Very limited spots</p>
               </div>
             </div>
           </div>
@@ -287,8 +291,8 @@ export default function ApplyPage() {
             <div className="benefit-card">
               <div className="benefit-icon">📈</div>
               <h3>Growth Path</h3>
-              <p>Partner → VP Partner → President</p>
-              <span className="benefit-highlight">Invite-only advancement</span>
+              <p>Start as Partner, grow to VP with proven results</p>
+              <span className="benefit-highlight">Performance-based advancement</span>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">🎯</div>

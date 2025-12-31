@@ -6,54 +6,119 @@ import Link from "next/link"
 import { captureGHLParams, storeGHLParams, retrieveGHLParams } from "@/lib/ghl-tracking"
 
 function CommissionCalculator() {
-  const [tier, setTier] = useState("partner")
-  const [product, setProduct] = useState(97)
-  const [referrals, setReferrals] = useState(10)
-  const rates: Record<string, number> = { partner: 0.15, vp: 0.25, president: 0.35 }
-  const monthly = product * rates[tier] * referrals
-  const yearly = monthly * 12
+  const [accounts, setAccounts] = useState(1000)
+  const [productPrice, setProductPrice] = useState(97)
+
+  // Calculate commissions for Partner (15%) and VP (25%)
+  const partnerCommissionPerAccount = productPrice * 0.15
+  const vpCommissionPerAccount = productPrice * 0.25
+
+  const partnerMonthly = partnerCommissionPerAccount * accounts
+  const partnerYearly = partnerMonthly * 12
+
+  const vpMonthly = vpCommissionPerAccount * accounts
+  const vpYearly = vpMonthly * 12
+
   return (
     <div className="calc-container">
-      <h3>💰 Commission Calculator</h3>
-      <div className="calc-grid">
-        <div className="calc-field">
-          <label>Your Tier</label>
-          <select value={tier} onChange={(e) => setTier(e.target.value)}>
-            <option value="partner">Partner (15%)</option>
-            <option value="vp">VP Partner (25%)</option>
-            <option value="president">President (35%)</option>
-          </select>
+      <h3>💰 Interactive Commission Calculator</h3>
+      <p className="calc-subtitle">Calculate your potential earnings based on active accounts</p>
+
+      <div className="calc-controls">
+        <div className="calc-field-group">
+          <label>Number of Active Accounts</label>
+          <div className="slider-container">
+            <input
+              type="range"
+              value={accounts}
+              onChange={(e) => setAccounts(Number(e.target.value))}
+              min="1"
+              max="10000"
+              step="1"
+              className="accounts-slider"
+            />
+            <input
+              type="number"
+              value={accounts}
+              onChange={(e) => setAccounts(Math.max(1, Number(e.target.value)))}
+              min="1"
+              max="10000"
+              className="accounts-input"
+            />
+          </div>
         </div>
-        <div className="calc-field">
-          <label>Product Price</label>
-          <select value={product} onChange={(e) => setProduct(Number(e.target.value))}>
+
+        <div className="calc-field-group">
+          <label>Average Product Price</label>
+          <select
+            value={productPrice}
+            onChange={(e) => setProductPrice(Number(e.target.value))}
+            className="product-select"
+          >
+            <option value={0}>FREE - $0/mo</option>
             <option value={27}>Starter - $27/mo</option>
-            <option value={97}>PRO - $97/mo</option>
+            <option value={97}>PRO - $97/mo (Default)</option>
             <option value={297}>Teams - $297/mo</option>
             <option value={497}>Enterprise - $497/mo</option>
           </select>
         </div>
-        <div className="calc-field">
-          <label>Monthly Referrals</label>
-          <input
-            type="number"
-            value={referrals}
-            onChange={(e) => setReferrals(Number(e.target.value))}
-            min="1"
-            max="1000"
-          />
+      </div>
+
+      <div className="calc-results-grid">
+        <div className="calc-tier-result partner-result">
+          <div className="tier-label">
+            <span className="tier-name">Partner (15%)</span>
+            <span className="tier-badge">Auto-Approved</span>
+          </div>
+          <div className="earnings-display">
+            <div className="earning-item">
+              <span className="earning-label">Per Account</span>
+              <span className="earning-value">${partnerCommissionPerAccount.toFixed(2)}/mo</span>
+            </div>
+            <div className="earning-item highlight">
+              <span className="earning-label">Monthly Total</span>
+              <span className="earning-value-large">
+                ${partnerMonthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+            </div>
+            <div className="earning-item">
+              <span className="earning-label">Annual Total</span>
+              <span className="earning-value">
+                ${partnerYearly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="calc-tier-result vp-result">
+          <div className="tier-label">
+            <span className="tier-name">VP Partner (25%)</span>
+            <span className="tier-badge vp-badge">Application Required</span>
+          </div>
+          <div className="earnings-display">
+            <div className="earning-item">
+              <span className="earning-label">Per Account</span>
+              <span className="earning-value">${vpCommissionPerAccount.toFixed(2)}/mo</span>
+            </div>
+            <div className="earning-item highlight">
+              <span className="earning-label">Monthly Total</span>
+              <span className="earning-value-large">
+                ${vpMonthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+            </div>
+            <div className="earning-item">
+              <span className="earning-label">Annual Total</span>
+              <span className="earning-value">
+                ${vpYearly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="calc-results">
-        <div className="calc-result">
-          <span>Monthly Recurring</span>
-          <strong>${monthly.toLocaleString()}</strong>
-        </div>
-        <div className="calc-result">
-          <span>Annual Earnings</span>
-          <strong>${yearly.toLocaleString()}</strong>
-        </div>
-      </div>
+
+      <p className="calc-note">
+        💡 All commissions are <strong>recurring</strong> - earn every month your referrals stay subscribed!
+      </p>
     </div>
   )
 }
@@ -180,11 +245,11 @@ function PartnerSignupForm() {
             <div className="premium-badge">Premium Tier</div>
             <div className="type-icon">👑</div>
             <h4>VP Position</h4>
-            <div className="commission-badge gold">25-35% Commission</div>
+            <div className="commission-badge gold">25% Commission</div>
             <p className="type-description">Leadership role with maximum earnings</p>
             <ul className="type-features">
               <li>
-                <span className="checkmark">✓</span> 25-35% recurring commissions
+                <span className="checkmark">✓</span> 25% recurring commissions
               </li>
               <li>
                 <span className="checkmark">✓</span> Dedicated support manager
@@ -580,80 +645,60 @@ export default function Home() {
       features: ["Everything in Partner", "Sub-affiliate recruitment", "Priority support", "Exclusive training"],
       featured: true,
     },
-    {
-      name: "President",
-      rate: "35%",
-      desc: "Invite only • Inner circle",
-      features: ["Everything in VP", "Highest commission", "Direct founder access", "Custom deals"],
-      featured: false,
-    },
   ]
   const products = [
     {
       name: "FREE",
       price: "$0",
-      annualPrice: "$0",
       period: "/mo",
+      annualPrice: "$0",
       c15: "$0",
       c25: "$0",
-      c35: "$0",
-      pop: false,
-      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=free",
-      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=free",
-      btnText: "Get Started Free",
+      payLink: "https://saintsal.ai/signup?plan=free",
+      annualPayLink: "",
     },
     {
       name: "Starter",
       price: "$27",
-      annualPrice: "$270",
       period: "/mo",
+      annualPrice: "$270",
       c15: "$4.05",
       c25: "$6.75",
-      c35: "$9.45",
+      payLink: "https://buy.stripe.com/test_monthly_starter",
+      annualPayLink: "https://buy.stripe.com/test_annual_starter",
       pop: false,
-      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=starter-monthly",
-      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=starter-annual",
-      btnText: "Subscribe Now",
     },
     {
       name: "PRO",
       price: "$97",
-      annualPrice: "$970",
       period: "/mo",
+      annualPrice: "$970",
       c15: "$14.55",
       c25: "$24.25",
-      c35: "$33.95",
+      payLink: "https://buy.stripe.com/test_monthly_pro",
+      annualPayLink: "https://buy.stripe.com/test_annual_pro",
       pop: true,
-      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=pro-monthly",
-      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=pro-annual",
-      btnText: "Subscribe Now",
     },
     {
       name: "Teams",
       price: "$297",
-      annualPrice: "$2,970",
       period: "/mo",
+      annualPrice: "$2,970",
       c15: "$44.55",
       c25: "$74.25",
-      c35: "$103.95",
-      pop: false,
-      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=teams-monthly",
-      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=teams-annual",
-      btnText: "Subscribe Now",
+      payLink: "https://buy.stripe.com/test_monthly_teams",
+      annualPayLink: "https://buy.stripe.com/test_annual_teams",
     },
     {
       name: "Enterprise",
       price: "$497",
-      annualPrice: "$4,970",
       period: "/mo",
+      annualPrice: "$4,970",
       c15: "$74.55",
       c25: "$124.25",
-      c35: "$173.95",
-      pop: false,
-      payLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=enterprise-monthly",
-      annualPayLink: "https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}&product=enterprise-annual",
-      btnText: "Contact Sales",
-      credits: "$100 Complimentary Credits",
+      credits: "$100 COMPLIMENTARY CREDITS",
+      payLink: "https://buy.stripe.com/test_monthly_enterprise",
+      annualPayLink: "https://buy.stripe.com/test_annual_enterprise",
     },
   ]
 
@@ -702,7 +747,7 @@ export default function Home() {
 
           <div className="hero-stats">
             <div className="stat">
-              <strong>15-35%</strong>
+              <strong>15-25%</strong>
               <span>Commission</span>
             </div>
             <div className="stat">
@@ -800,7 +845,6 @@ export default function Home() {
               <div>Annual Price</div>
               <div>Partner (15%)</div>
               <div>VP (25%)</div>
-              <div>President (35%)</div>
               <div>Action</div>
             </div>
             {products.map((p, i) => (
@@ -819,7 +863,6 @@ export default function Home() {
                 </div>
                 <div className="commission">{p.c15}</div>
                 <div className="commission">{p.c25}</div>
-                <div className="commission gold">{p.c35}</div>
                 <div>
                   <div className="payment-buttons">
                     <a
