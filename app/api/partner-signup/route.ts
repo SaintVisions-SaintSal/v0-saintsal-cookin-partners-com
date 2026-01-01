@@ -1,6 +1,48 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { sql } from "@/lib/neon"
 
+// Rewardful API Configuration
+const REWARDFUL_API_SECRET = process.env.REWARDFUL_API_SECRET || "bb8181816a718697e769f957830dbdd6"
+const REWARDFUL_PARTNER_CAMPAIGN_ID = process.env.REWARDFUL_PARTNER_CAMPAIGN_ID || "67ede31f-90b2-4d6b-91f2-9a0709b9df64"
+const REWARDFUL_VP_CAMPAIGN_ID = process.env.REWARDFUL_VP_CAMPAIGN_ID || "9228cd50-3af0-49db-a281-3a8084fdf7c5"
+
+// Helper function to create Rewardful affiliate
+async function createRewardfulAffiliate(data: {
+  email: string
+  firstName: string
+  lastName: string
+  campaignId: string
+}): Promise<{ success: boolean; affiliate?: any; error?: string }> {
+  try {
+    const response = await fetch("https://api.getrewardful.com/v1/affiliates", {
+      method: "POST",
+      headers: {
+        "Authorization": `Basic ${Buffer.from(REWARDFUL_API_SECRET + ":").toString("base64")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: data.email,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        campaign_id: data.campaignId,
+      }),
+    })
+
+    const result = await response.json()
+
+    if (response.ok) {
+      console.log("[Rewardful] Affiliate created:", result)
+      return { success: true, affiliate: result }
+    } else {
+      console.error("[Rewardful] API Error:", result)
+      return { success: false, error: result.error || "Failed to create affiliate" }
+    }
+  } catch (error) {
+    console.error("[Rewardful] Network error:", error)
+    return { success: false, error: "Network error connecting to Rewardful" }
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -14,161 +56,81 @@ export async function POST(request: NextRequest) {
       audience,
       experience,
       applicationType,
-      // VP-specific fields
-      role,
-      linkedIn,
-      yearsExperience,
-      industryExpertise,
-      currentPortfolioSize,
-      investmentCapacity,
-      partnershipGoals,
-      teamSize,
-      audienceSize,
-      referralStrategy,
-      referredBy,
-      additionalNotes,
+      // Payout fields
       payoutMethod,
-      payoutDetails,
+      paypalEmail,
+      venmoHandle,
+      cashappHandle,
+      bankAccountName,
+      bankRoutingNumber,
+      bankAccountNumber,
       taxId,
+      // VP-specific fields
+      instagram,
+      facebook,
+      linkedin,
+      twitter,
+      tiktok,
+      youtube,
+      followerCount,
+      portfolioUrl,
+      socialExperience,
+      marketingStrategy,
+      // Tracking
+      tracking,
     } = body
 
-    console.log(`[v0] ${applicationType === "vp" ? "VP" : "Partner"} signup started for:`, email)
+    console.log(`[CookinPartners] ${applicationType === "vp" ? "VP" : "Partner"} signup started for:`, email)
 
+    // Combine payout details into one field for storage
+    let payoutDetails = ""
+    switch (payoutMethod) {
+      case "paypal": payoutDetails = paypalEmail; break
+      case "venmo": payoutDetails = venmoHandle; break
+      case "cashapp": payoutDetails = cashappHandle; break
+      case "bank": payoutDetails = JSON.stringify({ name: bankAccountName, routing: bankRoutingNumber, account: bankAccountNumber }); break
+      default: payoutDetails = ""
+    }
+
+    // 1. Save to Neon Database
     let applicationId = null
     try {
       const result = await sql`
         INSERT INTO partner_applications (
           first_name, last_name, email, phone, company, audience, experience, 
           application_type, payout_method, payout_details, tax_id,
-          linkedin, years_experience, industry_expertise, portfolio_size,
-          investment_capacity, partnership_goals, team_size, audience_size,
-          referral_strategy, referred_by, additional_notes, source
+          instagram, facebook, linkedin, twitter, tiktok, youtube,
+          follower_count, portfolio_url, social_experience, marketing_strategy,
+          source, tracking_data
         ) VALUES (
           ${firstName}, ${lastName}, ${email}, ${phone || null}, ${company || null},
           ${audience || null}, ${experience || null}, ${applicationType || "partner"},
           ${payoutMethod || null}, ${payoutDetails || null}, ${taxId || null},
-          ${linkedIn || null}, ${yearsExperience || null}, 
-          ${Array.isArray(industryExpertise) ? industryExpertise.join(", ") : null},
-          ${currentPortfolioSize || null}, ${investmentCapacity || null},
-          ${partnershipGoals || null}, ${teamSize || null}, ${audienceSize || null},
-          ${referralStrategy || null}, ${referredBy || null}, ${additionalNotes || null},
-          'cookinpartners.com'
+          ${instagram || null}, ${facebook || null}, ${linkedin || null},
+          ${twitter || null}, ${tiktok || null}, ${youtube || null},
+          ${followerCount || null}, ${portfolioUrl || null},
+          ${socialExperience || null}, ${marketingStrategy || null},
+          'cookinpartners.com', ${tracking ? JSON.stringify(tracking) : null}
         )
         RETURNING id
       `
       applicationId = result[0]?.id
-      console.log("[v0] Database entry created:", applicationId)
+      console.log("[DB] Application saved:", applicationId)
     } catch (dbError) {
-      console.error("[v0] Database error:", dbError)
+      console.error("[DB] Database error:", dbError)
+      // Continue even if DB fails - we still want to create the Rewardful affiliate
     }
 
+    // 2. Create GHL Contact (for CRM, NOT affiliate tracking)
     const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID
     const GHL_API_KEY = process.env.GHL_PRIVATE_TOKEN
-    const GHL_WEBHOOK_URL = process.env.GHL_WEBHOOK_URL
+    let ghlContactId = null
 
-    if (applicationType === "vp") {
-      console.log("[v0] Processing VP application for manual review...")
-
-      let contactId = null
-      try {
-        const contactResponse = await fetch(`https://services.leadconnectorhq.com/contacts/`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${GHL_API_KEY}`,
-            "Content-Type": "application/json",
-            Version: "2021-07-28",
-          },
-          body: JSON.stringify({
-            locationId: GHL_LOCATION_ID,
-            firstName,
-            lastName,
-            email,
-            phone,
-            companyName: company,
-            tags: ["VP-Application", "Pending-Review", "25% Commission", "Premium Partner"],
-            customFields: [
-              { key: "application_type", value: "vp" },
-              { key: "role", value: role },
-              { key: "linkedin", value: linkedIn },
-              { key: "years_experience", value: yearsExperience },
-              {
-                key: "industry_expertise",
-                value: Array.isArray(industryExpertise) ? industryExpertise.join(", ") : "",
-              },
-              { key: "portfolio_size", value: currentPortfolioSize },
-              { key: "investment_capacity", value: investmentCapacity },
-              { key: "partnership_goals", value: partnershipGoals },
-              { key: "team_size", value: teamSize },
-              { key: "audience_size", value: audienceSize },
-              { key: "referral_strategy", value: referralStrategy },
-              { key: "application_id", value: applicationId?.toString() },
-              { key: "payout_method", value: payoutMethod },
-              { key: "tax_id", value: taxId },
-            ],
-          }),
-        })
-
-        if (contactResponse.ok) {
-          const contactData = await contactResponse.json()
-          contactId = contactData.contact?.id
-          console.log("[v0] VP contact created in GHL:", contactId)
-        }
-      } catch (error) {
-        console.error("[v0] VP contact creation error:", error)
-      }
-
-      try {
-        if (GHL_WEBHOOK_URL) {
-          await fetch(GHL_WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              type: "vp_application_review",
-              sendTo: "support@cookin.io",
-              subject: `🔥 New VP Partner Application - ${firstName} ${lastName}`,
-              applicant: {
-                name: `${firstName} ${lastName}`,
-                email,
-                phone,
-                company,
-                role,
-                linkedin: linkedIn,
-                yearsExperience,
-                industries: industryExpertise,
-                portfolioSize: currentPortfolioSize,
-                investmentCapacity,
-                goals: partnershipGoals,
-                teamSize,
-                audienceSize,
-                strategy: referralStrategy,
-                referredBy,
-                notes: additionalNotes,
-              },
-              payout: { method: payoutMethod, details: payoutDetails, taxId },
-              contactId,
-              applicationId,
-              timestamp: new Date().toISOString(),
-            }),
-          })
-          console.log("[v0] VP application notification sent to support@cookin.io")
-        }
-      } catch (error) {
-        console.error("[v0] Webhook error:", error)
-      }
-
-      return NextResponse.json({
-        success: true,
-        message: "VP application submitted! Our team will review and contact you within 24-48 hours.",
-        applicationType: "vp",
-        applicationId,
-        contactId,
-      })
-    }
-
-    console.log("[v0] Creating partner with auto-approval...")
-
-    let contactId = null
     try {
+      const tags = applicationType === "vp" 
+        ? ["VP-Application", "Pending-Review", "25% Commission", "Rewardful"]
+        : ["Partner", "15% Commission", "Auto-Approved", "Rewardful"]
+
       const contactResponse = await fetch(`https://services.leadconnectorhq.com/contacts/`, {
         method: "POST",
         headers: {
@@ -183,16 +145,12 @@ export async function POST(request: NextRequest) {
           email,
           phone,
           companyName: company,
-          tags: ["Partner", "15% Commission", "Auto-Approved", "Send Welcome Email", "New Partner Signup"],
+          tags,
           customFields: [
-            { key: "audience_type", value: audience },
-            { key: "affiliate_experience", value: experience },
+            { key: "application_type", value: applicationType || "partner" },
             { key: "application_id", value: applicationId?.toString() },
-            { key: "commission_rate", value: "15%" },
-            { key: "application_type", value: "partner" },
             { key: "payout_method", value: payoutMethod },
-            { key: "payout_details", value: payoutDetails },
-            { key: "tax_id", value: taxId },
+            { key: "affiliate_system", value: "rewardful" },
           ],
           source: "CookinPartners Website",
         }),
@@ -200,107 +158,166 @@ export async function POST(request: NextRequest) {
 
       if (contactResponse.ok) {
         const contactData = await contactResponse.json()
-        contactId = contactData.contact?.id
-        console.log("[v0] Partner contact created in GHL:", contactId)
-      } else {
-        const errorText = await contactResponse.text()
-        console.error("[v0] Contact creation failed:", errorText)
+        ghlContactId = contactData.contact?.id
+        console.log("[GHL] Contact created:", ghlContactId)
       }
     } catch (error) {
-      console.error("[v0] Contact creation error:", error)
+      console.error("[GHL] Contact creation error:", error)
     }
 
-    let affiliateId = null
-    let affiliateLink = ""
-    let portalLink = ""
+    // 3. Handle VP Applications (manual approval required)
+    if (applicationType === "vp") {
+      console.log("[CookinPartners] VP application - requires manual approval")
 
-    try {
-      console.log("[v0] Creating affiliate in GHL Affiliate Manager...")
-
-      const GHL_CAMPAIGN_ID = process.env.GHL_CAMPAIGN_ID
-
-      if (!GHL_CAMPAIGN_ID) {
-        console.error("[v0] GHL_CAMPAIGN_ID is missing!")
-        throw new Error("Campaign ID not configured")
-      }
-
-      const affiliateResponse = await fetch(`https://services.leadconnectorhq.com/affiliates/`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${GHL_API_KEY}`,
-          "Content-Type": "application/json",
-          Version: "2021-07-28",
-        },
-        body: JSON.stringify({
-          campaignId: GHL_CAMPAIGN_ID,
-          contactId: contactId,
-        }),
-      })
-
-      if (affiliateResponse.ok) {
-        const affiliateData = await affiliateResponse.json()
-        affiliateId = affiliateData.affiliate?.id || affiliateData.id
-        portalLink = affiliateData.affiliate?.portalLink || `https://cookinpartners.com/portal`
-
-        affiliateLink = `https://saintsal.ai/?am_id=${affiliateId}`
-
-        console.log("[v0] Affiliate created successfully!")
-        console.log("[v0] Affiliate Link:", affiliateLink)
-      } else {
-        const errorText = await affiliateResponse.text()
-        console.error("[v0] Affiliate creation error:", errorText)
-
-        if (contactId) {
-          affiliateId = contactId
-          affiliateLink = `https://saintsal.ai/?am_id=${contactId}`
-          portalLink = `https://cookinpartners.com/portal`
+      // Send notification webhook for VP review
+      const GHL_WEBHOOK_URL = process.env.GHL_WEBHOOK_URL
+      if (GHL_WEBHOOK_URL) {
+        try {
+          await fetch(GHL_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              type: "vp_application_review",
+              sendTo: "support@cookin.io",
+              subject: `🔥 New VP Partner Application - ${firstName} ${lastName}`,
+              applicant: {
+                name: `${firstName} ${lastName}`,
+                email,
+                phone,
+                company,
+                audience,
+                experience,
+                socials: { instagram, facebook, linkedin, twitter, tiktok, youtube },
+                followerCount,
+                portfolioUrl,
+                socialExperience,
+                marketingStrategy,
+              },
+              payout: { method: payoutMethod, details: payoutDetails, taxId },
+              applicationId,
+              ghlContactId,
+              instructions: "To approve: Create affiliate in Rewardful VP Campaign (25%) manually",
+              rewardfulCampaign: REWARDFUL_VP_CAMPAIGN_ID,
+              timestamp: new Date().toISOString(),
+            }),
+          })
+          console.log("[Webhook] VP notification sent")
+        } catch (error) {
+          console.error("[Webhook] Error:", error)
         }
       }
-    } catch (error) {
-      console.error("[v0] Affiliate creation error:", error)
 
-      if (contactId) {
-        affiliateId = contactId
-        affiliateLink = `https://saintsal.ai/?am_id=${contactId}`
-        portalLink = `https://cookinpartners.com/portal`
+      return NextResponse.json({
+        success: true,
+        message: "VP application submitted! Our team will review and contact you within 24-48 hours.",
+        applicationType: "vp",
+        applicationId,
+        contactId: ghlContactId,
+      })
+    }
+
+    // 4. Partner Applications - Auto-approve via Rewardful API
+    console.log("[CookinPartners] Creating Partner in Rewardful (15% campaign)...")
+
+    const rewardfulResult = await createRewardfulAffiliate({
+      email,
+      firstName,
+      lastName,
+      campaignId: REWARDFUL_PARTNER_CAMPAIGN_ID,
+    })
+
+    if (!rewardfulResult.success) {
+      console.error("[Rewardful] Failed to create affiliate:", rewardfulResult.error)
+      
+      // Check if affiliate already exists
+      if (rewardfulResult.error?.includes("already") || rewardfulResult.error?.includes("exists")) {
+        return NextResponse.json({
+          success: false,
+          message: "An affiliate account with this email already exists. Please log in to your existing account or contact support.",
+          error: "duplicate_email",
+        }, { status: 400 })
+      }
+
+      return NextResponse.json({
+        success: false,
+        message: "Failed to create affiliate account. Please try again or contact support.",
+        error: rewardfulResult.error,
+      }, { status: 500 })
+    }
+
+    const affiliate = rewardfulResult.affiliate
+    const affiliateCode = affiliate.links?.[0]?.token || affiliate.token || affiliate.id
+    const affiliateLink = `https://saintsal.ai/?via=${affiliateCode}`
+    const portalLink = affiliate.auth_token 
+      ? `https://saint-vision-technologies-llc.getrewardful.com/login?token=${affiliate.auth_token}`
+      : "https://saint-vision-technologies-llc.getrewardful.com/login"
+
+    console.log("[Rewardful] Affiliate created successfully!")
+    console.log("[Rewardful] Code:", affiliateCode)
+    console.log("[Rewardful] Link:", affiliateLink)
+
+    // 5. Update database with Rewardful info
+    if (applicationId) {
+      try {
+        await sql`
+          UPDATE partner_applications 
+          SET rewardful_affiliate_id = ${affiliate.id},
+              affiliate_code = ${affiliateCode},
+              affiliate_link = ${affiliateLink}
+          WHERE id = ${applicationId}
+        `
+        console.log("[DB] Updated with Rewardful info")
+      } catch (error) {
+        console.error("[DB] Update error:", error)
       }
     }
 
-    try {
-      if (GHL_WEBHOOK_URL) {
+    // 6. Send welcome webhook
+    const GHL_WEBHOOK_URL = process.env.GHL_WEBHOOK_URL
+    if (GHL_WEBHOOK_URL) {
+      try {
         await fetch(GHL_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             type: "partner_signup_confirmation",
             contact: { firstName, lastName, email, phone, company },
-            affiliate: { affiliateId, affiliateLink },
+            affiliate: { 
+              id: affiliate.id,
+              code: affiliateCode,
+              link: affiliateLink,
+              portalLink,
+            },
             commissionRate: "15%",
             applicationId,
-            contactId,
+            ghlContactId,
             timestamp: new Date().toISOString(),
           }),
         })
-        console.log("[v0] Partner welcome email webhook triggered")
+        console.log("[Webhook] Welcome notification sent")
+      } catch (error) {
+        console.error("[Webhook] Error:", error)
       }
-    } catch (error) {
-      console.error("[v0] Webhook error:", error)
     }
 
-    console.log("[v0] Partner signup completed successfully!")
-
+    // 7. Return success
     return NextResponse.json({
       success: true,
       message: "Welcome to CookinPartners! Your affiliate link is ready.",
       affiliateLink,
-      affiliateId,
+      affiliateCode,
+      affiliateId: affiliate.id,
       portalLink,
-      contactId,
+      contactId: ghlContactId,
       applicationId,
       commissionRate: "15%",
     })
+
   } catch (error) {
-    console.error("[v0] Partner signup error:", error)
-    return NextResponse.json({ success: false, error: "Failed to submit application" }, { status: 500 })
+    console.error("[CookinPartners] Signup error:", error)
+    return NextResponse.json({ 
+      success: false, 
+      error: "Failed to submit application. Please try again." 
+    }, { status: 500 })
   }
 }
