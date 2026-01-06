@@ -729,54 +729,62 @@ export default function Home() {
       <section className="hero">
         <div className="hero-glow"></div>
         <div className="container">
-          <div className="hero-logo">
-            <Image src="/images/cookinpartnerslogo.jpeg" alt="CookinPartners Logo" width={120} height={120} priority />
-          </div>
-
-          <div className="hero-badge">US Patent #10,290,222 | HACP™ Technology</div>
-
-          <h1>
-            <span className="gold">CookinPartners™</span>
-          </h1>
-          <p className="hero-tagline">Partner with the Saint Vision ecosystem</p>
-          <p className="hero-sub">
-            Join an elite network of professionals earning recurring commissions while promoting cutting-edge AI
-            technology. Partner program for Real Estate Brokers, Fund Managers, Realtors, Loan Officers. Powered by US
-            Patent #10,290,222.
-          </p>
-
-          <div className="hero-stats">
-            <div className="stat">
-              <strong>15-25%</strong>
-              <span>Commission</span>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+            <div className="hero-logo">
+              <Image
+                src="/images/cookinpartners-logo.png"
+                alt="CookinPartners Logo"
+                width={120}
+                height={120}
+                priority
+              />
             </div>
-            <div className="stat">
-              <strong>Recurring</strong>
-              <span>Revenue</span>
-            </div>
-            <div className="stat">
-              <strong>9</strong>
-              <span>Products</span>
-            </div>
-          </div>
 
-          <div className="hero-cta">
-            <Link href="/apply" className="btn-primary">
-              Apply Now →
-            </Link>
-            <Link href="#ecosystem" className="btn-secondary">
-              Explore Ecosystem
-            </Link>
-          </div>
+            <div className="hero-badge">US Patent #10,290,222 | HACP™ Technology</div>
 
-          <p className="hero-ip">
-            Protected by{" "}
-            <a href="https://patents.google.com/patent/US10290222B2" target="_blank" rel="noopener noreferrer">
-              US Patent #10,290,222
-            </a>
-            <br />
-            The HACP™ (Hyperlocal Automated Cross Platform) technology powers the entire Saint Vision ecosystem
-          </p>
+            <h1>
+              <span className="gold">CookinPartners™</span>
+            </h1>
+            <p className="hero-tagline">Partner with the Saint Vision ecosystem</p>
+            <p className="hero-sub">
+              Join an elite network of professionals earning recurring commissions while promoting cutting-edge AI
+              technology. Partner program for Real Estate Brokers, Fund Managers, Realtors, Loan Officers. Powered by US
+              Patent #10,290,222.
+            </p>
+
+            <div className="hero-stats">
+              <div className="stat">
+                <strong>15-25%</strong>
+                <span>Commission</span>
+              </div>
+              <div className="stat">
+                <strong>Recurring</strong>
+                <span>Revenue</span>
+              </div>
+              <div className="stat">
+                <strong>9</strong>
+                <span>Products</span>
+              </div>
+            </div>
+
+            <div className="hero-cta">
+              <Link href="/apply" className="btn-primary">
+                Apply Now →
+              </Link>
+              <Link href="#ecosystem" className="btn-secondary">
+                Explore Ecosystem
+              </Link>
+            </div>
+
+            <p className="hero-ip">
+              Protected by{" "}
+              <a href="https://patents.google.com/patent/US10290222B2" target="_blank" rel="noopener noreferrer">
+                US Patent #10,290,222
+              </a>
+              <br />
+              The HACP™ (Hyperlocal Automated Cross Platform) technology powers the entire Saint Vision ecosystem
+            </p>
+          </div>
         </div>
       </section>
       <section id="ecosystem" className="section">
