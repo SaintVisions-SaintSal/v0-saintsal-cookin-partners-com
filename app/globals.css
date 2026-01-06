@@ -1837,6 +1837,131 @@ h6 {
   font-weight: 600;
 }
 
+/* ============================================
+   FOOTER STYLES - HORIZONTAL LAYOUT
+   ============================================ */
+/* Adding missing footer CSS classes that match the HTML */
+.footer {
+  padding: 60px 0 40px;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.footer-logo-container .nav-logo {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.footer-brand > p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.footer-ip {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 1.8;
+}
+
+.footer-ip strong {
+  color: var(--gold-400);
+}
+
+.footer-ip a {
+  color: var(--gold-400);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.footer-ip a:hover {
+  opacity: 0.8;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold-400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.footer-col a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-col a:hover {
+  color: var(--gold-400);
+}
+
+.footer-bottom {
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+
+.footer-bottom p {
+  margin: 4px 0;
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-links {
+    grid-template-columns: 1fr;
+  }
+}
+
 .footer-horizontal {
   padding: 60px 0 40px;
   background: var(--bg-tertiary);
@@ -3117,7 +3242,7 @@ h6 {
   background: var(--bg-secondary);
   border-radius: 4px;
   font-size: 11px;
-  color: var(--text-tertiary);
+  color: var(--text-muted);
 }
 
 .asset-card .btn-primary {
