@@ -623,13 +623,53 @@ export default function Home() {
   }, [])
 
   const platforms = [
-    { name: "SaintSal™ AI", desc: "Multi-model AI orchestration platform", icon: "🤖", color: "#D4AF37" },
-    { name: "CookinBiz", desc: "Business automation & tools", icon: "💼", color: "#3b82f6" },
-    { name: "CookinCapital", desc: "Commercial lending brokerage", icon: "💰", color: "#22c55e" },
-    { name: "CookinTraining", desc: "Professional education courses", icon: "📚", color: "#9333ea" },
-    { name: "FlipEffective", desc: "Real estate investment tools", icon: "🏠", color: "#ef4444" },
-    { name: "AthenAI Legal", desc: "AI-powered legal assistance", icon: "⚖️", color: "#06b6d4" },
+    {
+      name: "SaintSal™ AI",
+      desc: "Multi-model AI orchestration platform",
+      icon: "🤖",
+      color: "#D4AF37",
+      url: "https://saintsal.ai",
+    },
+    {
+      name: "SaintCardX",
+      desc: "Digital business cards & SaintSal Chrome extension",
+      icon: "💳",
+      color: "#9333ea",
+      url: "https://saintcardx.com",
+    },
+    {
+      name: "CookinCapital",
+      desc: "AI-powered commercial lending brokerage",
+      icon: "💰",
+      color: "#22c55e",
+      url: "https://cookincapital.ai",
+    },
+    {
+      name: "CookinSaints",
+      desc: "Real estate investment community",
+      icon: "🏠",
+      color: "#3b82f6",
+      url: "https://cookinsaints.com",
+    },
+    {
+      name: "CookinFlips",
+      desc: "Real estate investment tools & deals",
+      icon: "🔄",
+      color: "#ef4444",
+      url: "https://cookinflips.com",
+    },
+    {
+      name: "Athena.AI",
+      desc: "AI-powered medical assistance",
+      icon: "⚕️",
+      color: "#06b6d4",
+      url: "https://athena.ai",
+      comingSoon: false,
+    },
+    { name: "SaintTeach", desc: "Professional education courses", icon: "📚", color: "#f59e0b", comingSoon: true },
+    { name: "CookinLegal", desc: "AI-powered legal assistance", icon: "⚖️", color: "#8b5cf6", comingSoon: true },
   ]
+
   const tiers = [
     {
       name: "Partner",
@@ -799,9 +839,15 @@ export default function Home() {
           <div className="platforms-grid">
             {platforms.map((p, i) => (
               <div key={i} className="platform-card" style={{ "--accent": p.color } as React.CSSProperties}>
+                {p.comingSoon && <span className="coming-soon-badge">Coming Soon</span>}
                 <div className="platform-icon">{p.icon}</div>
                 <h3>{p.name}</h3>
                 <p>{p.desc}</p>
+                {p.url && !p.comingSoon && (
+                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="platform-link">
+                    Visit Site →
+                  </a>
+                )}
               </div>
             ))}
           </div>
@@ -945,21 +991,29 @@ export default function Home() {
             <div className="footer-links">
               <div className="footer-col">
                 <h4>Platforms</h4>
-                <a href="https://saintsal.ai">SaintSal™ AI</a>
-                <a href="https://cookinbiz.com">CookinBiz</a>
-                <a href="https://cookincapital.com">CookinCapital</a>
-                <a href="https://cookintraining.com">CookinTraining</a>
+                <a href="https://saintsal.ai" target="_blank" rel="noopener noreferrer">
+                  SaintSal™ AI
+                </a>
+                <a href="https://saintcardx.com" target="_blank" rel="noopener noreferrer">
+                  SaintCardX
+                </a>
+                <a href="https://cookincapital.ai" target="_blank" rel="noopener noreferrer">
+                  CookinCapital
+                </a>
+                <a href="https://cookinsaints.com" target="_blank" rel="noopener noreferrer">
+                  CookinSaints
+                </a>
               </div>
               <div className="footer-col">
                 <h4>Resources</h4>
-                <a href="#">Partner Handbook</a>
-                <a href="#">Marketing Materials</a>
-                <a href="#">Terms & Conditions</a>
+                <Link href="/resources/handbook">Partner Handbook</Link>
+                <Link href="/resources">Marketing Materials</Link>
+                <Link href="/resources/terms">Terms & Conditions</Link>
               </div>
               <div className="footer-col">
                 <h4>Contact</h4>
                 <a href="mailto:partners@cookin.io">partners@cookin.io</a>
-                <a href="mailto:support@saintvision.io">support@saintvision.io</a>
+                <a href="mailto:support@cookin.io">support@cookin.io</a>
               </div>
             </div>
           </div>

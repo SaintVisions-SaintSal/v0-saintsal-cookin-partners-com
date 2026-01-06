@@ -155,25 +155,58 @@ const platforms = [
     primary: true,
   },
   {
-    id: "ghl",
-    name: "GoHighLevel",
-    tagline: "Complete Business Command Center",
+    id: "saintcardx",
+    name: "SaintCardX",
+    tagline: "Digital Business Cards & Chrome Extension",
     description:
-      "All-in-one business management suite with CRM, project management, team collaboration, and advanced analytics. Where all your partner activities and commissions are tracked.",
-    features: ["CRM Dashboard", "Commission Tracking", "Automated Workflows", "Client Management"],
-    url: "https://app.gohighlevel.com",
-    color: "#22c55e",
+      "Create stunning digital business cards and supercharge your browser with the SaintSal Chrome extension for instant AI assistance anywhere.",
+    features: ["Digital Business Cards", "Chrome Extension", "Contact Sharing", "Analytics Dashboard"],
+    url: "https://saintcardx.com",
+    color: "#9333ea",
     primary: false,
   },
   {
     id: "cookincapital",
-    name: "CookinCapital AI",
-    tagline: "Revolutionary Lending Platform",
+    name: "CookinCapital",
+    tagline: "AI-Powered Lending Brokerage",
     description:
       "Connect borrowers with capital sources instantly. AI-powered loan matching, automated underwriting, and instant approval process for real estate and business loans.",
     features: ["AI Loan Matching", "Automated Underwriting", "Instant Pre-Approvals", "Multiple Lender Network"],
     url: "https://cookincapital.ai",
+    color: "#22c55e",
+    primary: false,
+  },
+  {
+    id: "cookinsaints",
+    name: "CookinSaints",
+    tagline: "Real Estate Investment Community",
+    description:
+      "Join an exclusive community of real estate investors. Access deals, network with like-minded investors, and grow your portfolio.",
+    features: ["Investment Community", "Deal Flow Access", "Networking", "Education Resources"],
+    url: "https://cookinsaints.com",
     color: "#3b82f6",
+    primary: false,
+  },
+  {
+    id: "cookinflips",
+    name: "CookinFlips",
+    tagline: "Real Estate Investment Tools",
+    description:
+      "Find, analyze, and flip properties with AI-powered tools. Access exclusive deals and streamline your investment process.",
+    features: ["Deal Analysis", "Property Search", "ROI Calculator", "Market Data"],
+    url: "https://cookinflips.com",
+    color: "#ef4444",
+    primary: false,
+  },
+  {
+    id: "ghl",
+    name: "GoHighLevel",
+    tagline: "Your Partner Command Center",
+    description:
+      "All-in-one business management suite with CRM, project management, team collaboration, and advanced analytics. Where all your partner activities and commissions are tracked.",
+    features: ["CRM Dashboard", "Commission Tracking", "Automated Workflows", "Client Management"],
+    url: "https://app.gohighlevel.com",
+    color: "#10b981",
     primary: false,
   },
 ]
@@ -315,7 +348,7 @@ export default function ResourcesPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
-              style={{ background: "#22c55e" }}
+              style={{ background: "#10b981" }}
             >
               Access Your GHL Dashboard →
             </a>
@@ -464,24 +497,44 @@ export default function ResourcesPage() {
       {/* Quick Links */}
       <section className="section">
         <div className="container">
+          <div className="section-header">
+            <span className="badge">Partner Documents</span>
+            <h2>
+              Required <span className="gold">Documents</span>
+            </h2>
+            <p>Complete these documents to activate your partner account</p>
+          </div>
           <div className="quick-links-grid">
+            <Link href="/resources/handbook" className="quick-link-card">
+              <span className="quick-link-icon">📖</span>
+              <h3>Partner Handbook</h3>
+              <p>Independent contractor guidelines and policies</p>
+            </Link>
+            <Link href="/resources/terms" className="quick-link-card">
+              <span className="quick-link-icon">📋</span>
+              <h3>Terms & Conditions</h3>
+              <p>Affiliate program agreement - required to sign</p>
+            </Link>
+            <Link href="/resources/nda" className="quick-link-card">
+              <span className="quick-link-icon">🔒</span>
+              <h3>NDA Agreement</h3>
+              <p>Confidentiality agreement with digital signature</p>
+            </Link>
+            <Link href="/resources/w9" className="quick-link-card">
+              <span className="quick-link-icon">📝</span>
+              <h3>W-9 / W-8BEN</h3>
+              <p>Tax form required for commission payments</p>
+            </Link>
             <Link href="/get-paid" className="quick-link-card">
               <span className="quick-link-icon">💰</span>
               <h3>Set Up Payouts</h3>
-              <p>Configure your payout method to receive commissions</p>
-            </Link>
-            <Link href="/apply" className="quick-link-card">
-              <h3>Become a Partner</h3>
-              <p>Not a partner yet? Apply now for instant approval</p>
+              <p>Configure your payout method</p>
             </Link>
             <a href="https://app.gohighlevel.com" target="_blank" rel="noopener noreferrer" className="quick-link-card">
+              <span className="quick-link-icon">📊</span>
               <h3>GHL Dashboard</h3>
               <p>Access your commission tracking and CRM</p>
             </a>
-            <Link href="mailto:support@cookin.io" className="quick-link-card">
-              <h3>Get Support</h3>
-              <p>Questions? Our team is here to help</p>
-            </Link>
           </div>
         </div>
       </section>
@@ -510,6 +563,12 @@ export default function ResourcesPage() {
                 </a>
                 <a href="https://cookincapital.ai" target="_blank" rel="noopener noreferrer">
                   CookinCapital
+                </a>
+                <a href="https://cookinsaints.com" target="_blank" rel="noopener noreferrer">
+                  CookinSaints
+                </a>
+                <a href="https://cookinflips.com" target="_blank" rel="noopener noreferrer">
+                  CookinFlips
                 </a>
                 <a href="https://app.gohighlevel.com" target="_blank" rel="noopener noreferrer">
                   GHL Dashboard

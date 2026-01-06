@@ -6,12 +6,10 @@ import Image from "next/image"
 
 export function SaintSalChat() {
   const [isOpen, setIsOpen] = useState(false)
-  const [provider, setProvider] = useState<"openai" | "anthropic" | "google">("openai")
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
     api: "/api/chat",
-    body: { provider },
     onError: (error) => {
       console.error("[v0] Chat error:", error)
     },
@@ -56,11 +54,6 @@ export function SaintSalChat() {
               </div>
             </div>
             <div className="chat-header-actions">
-              <select value={provider} onChange={(e) => setProvider(e.target.value as any)} className="provider-select">
-                <option value="openai">GPT-4o</option>
-                <option value="anthropic">Claude Sonnet</option>
-                <option value="google">Gemini 2.0</option>
-              </select>
               <button onClick={toggleChat} className="chat-close" aria-label="Close chat">
                 ✕
               </button>
