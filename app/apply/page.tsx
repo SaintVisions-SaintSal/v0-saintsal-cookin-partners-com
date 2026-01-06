@@ -233,9 +233,14 @@ export default function ApplyPage() {
                   </li>
                 </ul>
 
-                <Link href="/apply/partner" className="tier-btn-main cta-join-now pulsing-btn">
+                <a
+                  href="https://saint-vision-technologies-llc.getrewardful.com/signup?campaign=affiliates-of-our-gotta-guy-saintsal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tier-btn-main cta-join-now pulsing-btn"
+                >
                   Get Your Affiliate Link Now →
-                </Link>
+                </a>
 
                 <p className="instant-approval-note highlight">✓ Auto-approved • Start earning in 5 minutes</p>
               </div>

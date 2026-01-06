@@ -631,18 +631,18 @@ export default function Home() {
       url: "https://saintsal.ai",
     },
     {
-      name: "SaintCardX",
-      desc: "Digital business cards & SaintSal Chrome extension",
-      icon: "💳",
-      color: "#9333ea",
-      url: "https://saintcardx.com",
-    },
-    {
       name: "CookinCapital",
       desc: "AI-powered commercial lending brokerage",
       icon: "💰",
       color: "#22c55e",
       url: "https://cookincapital.ai",
+    },
+    {
+      name: "SaintCardX",
+      desc: "Digital business cards & Chrome extension",
+      icon: "💳",
+      color: "#9333ea",
+      url: "https://saintcardx.com",
     },
     {
       name: "CookinSaints",
@@ -664,10 +664,22 @@ export default function Home() {
       icon: "⚕️",
       color: "#06b6d4",
       url: "https://athena.ai",
-      comingSoon: false,
     },
-    { name: "SaintTeach", desc: "Professional education courses", icon: "📚", color: "#f59e0b", comingSoon: true },
-    { name: "CookinLegal", desc: "AI-powered legal assistance", icon: "⚖️", color: "#8b5cf6", comingSoon: true },
+  ]
+
+  const comingSoonPlatforms = [
+    {
+      name: "SaintTeach",
+      desc: "AI-powered education platform",
+      icon: "📚",
+      color: "#f59e0b",
+    },
+    {
+      name: "CookinLegal",
+      desc: "AI legal document assistance",
+      icon: "⚖️",
+      color: "#8b5cf6",
+    },
   ]
 
   const tiers = [
@@ -839,17 +851,34 @@ export default function Home() {
           <div className="platforms-grid">
             {platforms.map((p, i) => (
               <div key={i} className="platform-card" style={{ "--accent": p.color } as React.CSSProperties}>
-                {p.comingSoon && <span className="coming-soon-badge">Coming Soon</span>}
                 <div className="platform-icon">{p.icon}</div>
                 <h3>{p.name}</h3>
                 <p>{p.desc}</p>
-                {p.url && !p.comingSoon && (
+                {p.url && (
                   <a href={p.url} target="_blank" rel="noopener noreferrer" className="platform-link">
                     Visit Site →
                   </a>
                 )}
               </div>
             ))}
+          </div>
+
+          <div className="coming-soon-section">
+            <h3 className="coming-soon-title">Coming Soon</h3>
+            <div className="coming-soon-grid">
+              {comingSoonPlatforms.map((p, i) => (
+                <div
+                  key={i}
+                  className="platform-card coming-soon"
+                  style={{ "--accent": p.color } as React.CSSProperties}
+                >
+                  <span className="coming-soon-badge">Coming Soon</span>
+                  <div className="platform-icon">{p.icon}</div>
+                  <h3>{p.name}</h3>
+                  <p>{p.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -994,11 +1023,11 @@ export default function Home() {
                 <a href="https://saintsal.ai" target="_blank" rel="noopener noreferrer">
                   SaintSal™ AI
                 </a>
-                <a href="https://saintcardx.com" target="_blank" rel="noopener noreferrer">
-                  SaintCardX
-                </a>
                 <a href="https://cookincapital.ai" target="_blank" rel="noopener noreferrer">
                   CookinCapital
+                </a>
+                <a href="https://saintcardx.com" target="_blank" rel="noopener noreferrer">
+                  SaintCardX
                 </a>
                 <a href="https://cookinsaints.com" target="_blank" rel="noopener noreferrer">
                   CookinSaints
