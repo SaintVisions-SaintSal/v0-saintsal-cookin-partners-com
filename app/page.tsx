@@ -699,16 +699,7 @@ export default function Home() {
     },
   ]
   const products = [
-    {
-      name: "FREE",
-      price: "$0",
-      period: "/mo",
-      annualPrice: "$0",
-      c15: "$0",
-      c25: "$0",
-      payLink: "https://saintsal.ai/signup?plan=free",
-      annualPayLink: "",
-    },
+    { name: "FREE", price: "$0", period: "/mo", annualPrice: "$0", c15: "$0", c25: "$0", pop: false },
     {
       name: "Starter",
       price: "$27",
@@ -716,8 +707,6 @@ export default function Home() {
       annualPrice: "$270",
       c15: "$4.05",
       c25: "$6.75",
-      payLink: "https://buy.stripe.com/test_monthly_starter",
-      annualPayLink: "https://buy.stripe.com/test_annual_starter",
       pop: false,
     },
     {
@@ -727,8 +716,6 @@ export default function Home() {
       annualPrice: "$970",
       c15: "$14.55",
       c25: "$24.25",
-      payLink: "https://buy.stripe.com/test_monthly_pro",
-      annualPayLink: "https://buy.stripe.com/test_annual_pro",
       pop: true,
     },
     {
@@ -738,8 +725,6 @@ export default function Home() {
       annualPrice: "$2,970",
       c15: "$44.55",
       c25: "$74.25",
-      payLink: "https://buy.stripe.com/test_monthly_teams",
-      annualPayLink: "https://buy.stripe.com/test_annual_teams",
     },
     {
       name: "Enterprise",
@@ -749,8 +734,6 @@ export default function Home() {
       c15: "$74.55",
       c25: "$124.25",
       credits: "$100 COMPLIMENTARY CREDITS",
-      payLink: "https://buy.stripe.com/test_monthly_enterprise",
-      annualPayLink: "https://buy.stripe.com/test_annual_enterprise",
     },
   ]
 
@@ -947,25 +930,9 @@ export default function Home() {
                 <div className="commission">{p.c15}</div>
                 <div className="commission">{p.c25}</div>
                 <div>
-                  <div className="payment-buttons">
-                    <a
-                      href={p.payLink}
-                      className="btn-product btn-product-monthly"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Monthly →
-                    </a>
-                    {p.name !== "FREE" && (
-                      <a
-                        href={p.annualPayLink}
-                        className="btn-product btn-product-annual"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Annual →
-                      </a>
-                    )}
+                  <div className="pricing-display">
+                    <span className="price-badge monthly">Monthly</span>
+                    {p.name !== "FREE" && <span className="price-badge annual">Annual</span>}
                   </div>
                 </div>
               </div>
