@@ -505,6 +505,16 @@ export default function ResourcesPage() {
             <p>Complete these documents to activate your partner account</p>
           </div>
           <div className="quick-links-grid">
+            <Link href="/resources/marketing" className="quick-link-card">
+              <span className="quick-link-icon">📣</span>
+              <h3>Marketing Materials</h3>
+              <p>Ready-to-post social content and brand assets</p>
+            </Link>
+            <Link href="/resources/card-builder" className="quick-link-card">
+              <span className="quick-link-icon">💳</span>
+              <h3>Partner Card Builder</h3>
+              <p>Create your QR code and digital business card</p>
+            </Link>
             <Link href="/resources/handbook" className="quick-link-card">
               <span className="quick-link-icon">📖</span>
               <h3>Partner Handbook</h3>
@@ -524,11 +534,6 @@ export default function ResourcesPage() {
               <span className="quick-link-icon">📝</span>
               <h3>W-9 / W-8BEN</h3>
               <p>Tax form required for commission payments</p>
-            </Link>
-            <Link href="/get-paid" className="quick-link-card">
-              <span className="quick-link-icon">💰</span>
-              <h3>Set Up Payouts</h3>
-              <p>Configure your payout method</p>
             </Link>
             <a href="https://app.gohighlevel.com" target="_blank" rel="noopener noreferrer" className="quick-link-card">
               <span className="quick-link-icon">📊</span>
