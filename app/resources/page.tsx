@@ -397,7 +397,7 @@ export default function ResourcesPage() {
                 <label>Your Affiliate Link</label>
                 <input
                   type="text"
-                  placeholder="https://saintsal.ai/?am_id=YOUR_ID"
+                  placeholder="https://saintsal.ai/?via=yourname"
                   value={affiliateLink}
                   onChange={(e) => setAffiliateLink(e.target.value)}
                 />

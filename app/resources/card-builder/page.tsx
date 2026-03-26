@@ -178,7 +178,7 @@ export default function CardBuilderPage() {
             <span className="helper-text">
               Get your link at{" "}
               <a
-                href="https://saint-vision-technologies-llc.getrewardful.com/signup?campaign=affiliates-of-our-gotta-guy-saintsal"
+                href="https://saint-vision-technologies-llc.getrewardful.com/signup?campaign=saintsal-labs-partner-prgm-15"
                 target="_blank"
                 rel="noopener noreferrer"
               >

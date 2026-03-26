@@ -26,7 +26,7 @@ PARTNER PROGRAM DETAILS:
 - Regular Partners: 15% recurring commission, instant approval
 - VP Positions: 25-35% commission based on experience
 - 90-day cookie tracking
-- Affiliate link format: https://cookinpartners.com/cookinpartnerscom?am_id={{affiliate_id}}
+- Affiliate link format: https://saintsal.ai/?via={{affiliate_id}} OR https://saintsallabs.com/?via={{affiliate_id}}
 
 PRODUCTS & PRICING:
 - SaintSal™ FREE: $0/month

@@ -234,7 +234,7 @@ export default function ApplyPage() {
                 </ul>
 
                 <a
-                  href="https://saint-vision-technologies-llc.getrewardful.com/signup?campaign=affiliates-of-our-gotta-guy-saintsal"
+                  href="https://saint-vision-technologies-llc.getrewardful.com/signup?campaign=saintsal-labs-partner-prgm-15"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="tier-btn-main cta-join-now pulsing-btn"

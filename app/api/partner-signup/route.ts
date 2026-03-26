@@ -356,7 +356,7 @@ export async function POST(request: NextRequest) {
         affiliateId = affiliateData.affiliate?.id || affiliateData.id
         portalLink = affiliateData.affiliate?.portalLink || `https://cookinpartners.com/portal`
 
-        affiliateLink = `https://saintsal.ai/?am_id=${affiliateId}`
+        affiliateLink = `https://saintsal.ai/?via=${affiliateId}`
 
         console.log("[v0] Affiliate created successfully!")
         console.log("[v0] Affiliate Link:", affiliateLink)
@@ -366,7 +366,7 @@ export async function POST(request: NextRequest) {
 
         if (contactId) {
           affiliateId = contactId
-          affiliateLink = `https://saintsal.ai/?am_id=${contactId}`
+          affiliateLink = `https://saintsal.ai/?via=${contactId}`
           portalLink = `https://cookinpartners.com/portal`
         }
       }
@@ -375,7 +375,7 @@ export async function POST(request: NextRequest) {
 
       if (contactId) {
         affiliateId = contactId
-        affiliateLink = `https://saintsal.ai/?am_id=${contactId}`
+        affiliateLink = `https://saintsal.ai/?via=${contactId}`
         portalLink = `https://cookinpartners.com/portal`
       }
     }
